@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import PIL.Image as im
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
 # import nrrd
 
 from os.path import join
@@ -14,7 +16,7 @@ import kalibracija as calibration
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = 'C:/Users/PTIT/Desktop/PTIT/data'
-pth = '/home/martin/Desktop/RV_Seminar/rekonstrukcija'
+pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija'
 
 acquisition_data_pth = join(pth, 'acquisitions', 'klovn30')
 calibration_image_fname = join(pth, 'calibration', 'Aneja je pro.jpg')
@@ -60,7 +62,7 @@ vol = r3d.fbp(slike[::1], koti[::1], Tproj,
               filter_type='hann', sampling_mm=3,
               out_fname=out_volume_fname)
 
-[dx, dy, dz] = vol.shape
+
 
 def linScale(iImage, oMax):
     k = oMax/np.max(iImage)
@@ -71,8 +73,11 @@ def thresholdImage(iImage, iThreshold):
     oImage = 255 * np.array(iImage > iThreshold, dtype='uint8')
     return oImage
 
-Thres = 100
-Deci = 10
+#Thres = 100
+Thres = 15
+Deci = 5
+endHeightShare = 0.9
+startHeightShare = 0.1
 
 # generacija thresholdanega volumna
 # for z in range(dz):
@@ -90,11 +95,18 @@ pointCoorY = []
 pointCoorZ = []
 dvol = np.ones_like(vol)
 
-endZ = int(np.round(dz*0.90))
+# [dX, dY, dZ] = vol.shape
+dZ = len(vol[0,0,:])
+endZ = int(np.round(dZ*endHeightShare))
+startZ = int(np.round(dZ*startHeightShare))
 
-for z in range(endZ):
+vol = vol[:,:,startZ:endZ]
+[dx, dy, dz] = vol.shape
+
+# for z in range(endZ):
+for z in range(dz):
     dImage = vol[:,:,z]
-    dImage = linScale(dImage, 255)
+    #dImage = linScale(dImage, 255)
     dImage = thresholdImage(dImage, Thres)
 
     for x in range(dx):
@@ -109,12 +121,36 @@ for z in range(endZ):
 # imlib.showImage(dvol[:,:,endZ-1])
 # plt.show()
 
-# # 3D izris
+#redcenje tock
 pointCoorX = pointCoorX[::Deci]
 pointCoorY = pointCoorY[::Deci]
 pointCoorZ = pointCoorZ[::Deci]
+
+# #3D (ne naredi equal osi :s)
+# fig = plt.figure()
+# ax = fig.gca(projection='3d')
+# ax.set_aspect('equal')
+# ax.scatter(pointCoorX, pointCoorY, pointCoorZ)
+# plt.show()
+
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(pointCoorX, pointCoorY, pointCoorZ)
-plt.gca().set_aspect('equal', adjustable='box')
+ax = fig.gca(projection='3d')
+ax.set_aspect('equal')
+
+X = pointCoorX
+Y = pointCoorY
+Z = pointCoorZ
+
+scat = ax.scatter(X, Y, Z)
+
+# Create cubic bounding box to simulate equal aspect ratio
+max_range = np.max(np.array([np.max(X) - np.min(X), np.max(Y) - np.min(Y), np.max(Z) - np.min(Z)]))
+Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(np.max(X) - np.min(X))
+Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(np.max(Y) - np.min(Y))
+Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(np.max(Z) - np.min(Z))
+# Comment or uncomment following both lines to test the fake bounding box:
+for xb, yb, zb in zip(Xb, Yb, Zb):
+   ax.plot([xb], [yb], [zb], 'w')
+
+plt.grid()
 plt.show()
