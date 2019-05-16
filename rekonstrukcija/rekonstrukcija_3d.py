@@ -12,7 +12,7 @@ from os.path import join
 import imgproc.imlib as imlib
 import imgproc.reconstruction as r3d
 import kalibracija as calibration
-# import calibration
+#import calibration
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = 'C:/Users/PTIT/Desktop/PTIT/data'
@@ -54,7 +54,8 @@ plt.plot(pts3dproj[:,0], pts3dproj[:,1],'gx', markersize=15)
 slika = np.squeeze(slike[0])
 tip_filtra = 'hann'  # none, ram-lak, cosine, hann, hamming
 slika_f = r3d.filter_projection(slika, tip_filtra, cut_off=0.75)
-# imlib.showImage(slika_f, iCmap=cm.jet)
+imlib.showImage(slika_f, iCmap=cm.jet)
+plt.show()
 
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
@@ -154,3 +155,5 @@ for xb, yb, zb in zip(Xb, Yb, Zb):
 
 plt.grid()
 plt.show()
+
+print(pts2d)

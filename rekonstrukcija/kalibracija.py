@@ -24,10 +24,21 @@ def IRCT_CALIBRATION_OBJECT():
 
     :return: numpy array of 3D point coordinates corresponding to marker location on the calibration object
     """
+    # h = 8
+    # pts = [
+    #     [0,0,134+h], #tazgornja
+    #     [33,0,108+h], #zg. v seriji treh
+    #     [-16.5,-28,92+h],
+    #     [-16.5,28,75+h],
+    #     [33,0,60.5+h],
+    #     [-16.5,-28,43+h],
+    #     [-16.5,28,28+h],
+    #     [33,0,12+h]
+    #]
     h = 8
     pts = [
-        [0,0,134+h],
-        [33,0,108+h],
+        [0,0,134+h], #tazgornja
+        [33,0,108+h], #zg. v seriji treh
         [-16.5,-28,92+h],
         [-16.5,28,75+h],
         [33,0,60.5+h],

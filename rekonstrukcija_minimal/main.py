@@ -13,10 +13,12 @@ import reconlib as rl
 # pth = 'C:/Users/PTIT/Desktop/PTIT/data'
 pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
 
-acquisition_data_pth = join(pth, 'acquisitions', 'klovn30')
-calibration_image_fname = join(pth, 'calibration', 'Aneja je pro.jpg')
+#acquisition_data_pth = join(pth, 'acquisitions', 'klovn30')
+acquisition_data_pth = join(pth, 'acquisitions', 'kocka')
+calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
 calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra_aneja.npy')
-out_volume_fname = join(pth, 'reconstructions', 'klovn3d.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', 'klovn3d.nrrd')
+out_volume_fname = join(pth, 'reconstructions', 'kocka3d.nrrd')
 
 slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
 
@@ -57,7 +59,7 @@ vol = rl.fbp(slike[::1], koti[::1], Tproj,
               filter_type='hann', sampling_mm=3,
               out_fname=out_volume_fname)
 
-Thres = 15
+Thres = 5
 Deci = 5
 endHeightShare = 0.9
 startHeightShare = 0.1

@@ -40,8 +40,8 @@ def load_images(pth, proc=rgb2gray, ext='.jpg'):
 # to the rotating table base.
 TABLE_HEIGHT_MM = 79 # rotation table height in mm
 CAMERA_HEIGHT_MM = 310 # distance in mm, in direction perpedicular to base, i.e. vertical axis
-CAMERA_TO_TABLE_DX_MM = 760 # distance in mm, in direction from camera towards the rotating table
-CAMERA_TO_TABLE_DY_MM = 3 # distance in mm, direction based on rhs coordinate frame (dx x dz), i.e. to the left w.r.t. dx
+CAMERA_TO_TABLE_DX_MM = 440 # distance in mm, in direction from camera towards the rotating table
+CAMERA_TO_TABLE_DY_MM = 10 # distance in mm, direction based on rhs coordinate frame (dx x dz), i.e. to the left w.r.t. dx
 
 ROTATION_DIRECTION = -1# +1 corresponds to rotation direction about camera z axis, -1 is the opposite direction
 
@@ -59,7 +59,8 @@ def IRCT_CALIBRATION_OBJECT():
 
     :return: numpy array of 3D point coordinates corresponding to marker location on the calibration object
     """
-    h = 8
+    #h = 8
+    h = 90
     pts = [
         [0,0,134+h],
         [33,0,108+h],
