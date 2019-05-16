@@ -411,3 +411,65 @@ def fbp(imgs, angles, Tproj, out_fname='volume', sampling_mm=2, filter_type='han
     itk.WriteImage(img, out_fname, True)
 
     return vol
+
+def get_point_cloud(vol, Thres=15, Deci=5, startHeightShare=0.1, endHeightShare=0.9):
+
+    def linScale(iImage, oMax):
+        k = oMax/np.max(iImage)
+        oImage = k*iImage
+        return oImage
+
+    def thresholdImage(iImage, iThreshold):
+        oImage = 255 * np.array(iImage > iThreshold, dtype='uint8')
+        return oImage
+
+    pointCoorX = []
+    pointCoorY = []
+    pointCoorZ = []
+    dvol = np.ones_like(vol)
+
+    dZ = len(vol[0,0,:])
+    endZ = int(np.round(dZ*endHeightShare))
+    startZ = int(np.round(dZ*startHeightShare))
+
+    vol = vol[:,:,startZ:endZ]
+    [dx, dy, dz] = vol.shape
+
+    for z in range(dz):
+        dImage = vol[:,:,z]
+        #dImage = linScale(dImage, 255)
+        dImage = thresholdImage(dImage, Thres)
+
+        for x in range(dx):
+            for y in range(dy):
+                dvol[x,y,z] = dImage[x,y]
+
+                if (dImage[x, y] <= Thres):
+                    pointCoorX.append(x)
+                    pointCoorY.append(y)
+                    pointCoorZ.append(z)
+
+    #redcenje tock
+    pointCoorX = pointCoorX[::Deci]
+    pointCoorY = pointCoorY[::Deci]
+    pointCoorZ = pointCoorZ[::Deci]
+    return pointCoorX, pointCoorY, pointCoorZ
+
+def plot_point_cloud(X, Y, Z):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    ax.set_aspect('equal')
+
+    scat = ax.scatter(X, Y, Z)
+
+    # Create cubic bounding box to simulate equal aspect ratio
+    max_range = np.max(np.array([np.max(X) - np.min(X), np.max(Y) - np.min(Y), np.max(Z) - np.min(Z)]))
+    Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(np.max(X) - np.min(X))
+    Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(np.max(Y) - np.min(Y))
+    Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(np.max(Z) - np.min(Z))
+    # Comment or uncomment following both lines to test the fake bounding box:
+    for xb, yb, zb in zip(Xb, Yb, Zb):
+        ax.plot([xb], [yb], [zb], 'w')
+
+    plt.grid()
+    plt.show()
