@@ -61,8 +61,11 @@ def IRCT_CALIBRATION_OBJECT():
     """
     #h = 8
     h = 90
+    #x kaže v smeri od kalibracijskega objekta do kamere
+    #z kaže navzgor
+    #y kaže tako, da imamo desnosučni KS
     pts = [
-        [0,0,134+h],
+        [0,0,134+h], #[x,y,z]
         [33,0,108+h],
         [-16.5,-28,92+h],
         [-16.5,28,75+h],
@@ -147,7 +150,7 @@ def dlt_calibration(pts2d, pts3d):
     :return: Transformation matrix
     '''
 
-    def get_mat_row(pt2d, pt3d):
+    def get_mat_row(pt2d, pt3d): #vhod v funkcijo je posamezna točka
         row1 = np.array((pt3d[0], pt3d[1], pt3d[2], 1, 0, 0, 0, 0, -pt3d[0]*pt2d[0], -pt3d[1]*pt2d[0], -pt3d[2]*pt2d[0]))
         row2 = np.array((0, 0, 0, 0, pt3d[0], pt3d[1], pt3d[2], 1, -pt3d[0]*pt2d[1], -pt3d[1]*pt2d[1], -pt3d[2]*pt2d[1]))
         return np.vstack((row1, row2)), np.vstack((pt2d[0], pt2d[1]))
