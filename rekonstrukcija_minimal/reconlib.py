@@ -40,7 +40,8 @@ def load_images(pth, proc=rgb2gray, ext='.jpg'):
 # to the rotating table base.
 TABLE_HEIGHT_MM = 79 # rotation table height in mm
 CAMERA_HEIGHT_MM = 310 # distance in mm, in direction perpedicular to base, i.e. vertical axis
-CAMERA_TO_TABLE_DX_MM = 440 # distance in mm, in direction from camera towards the rotating table
+#CAMERA_TO_TABLE_DX_MM = 530 # distance in mm, in direction from camera towards the rotating table
+CAMERA_TO_TABLE_DX_MM = 440
 CAMERA_TO_TABLE_DY_MM = 10 # distance in mm, direction based on rhs coordinate frame (dx x dz), i.e. to the left w.r.t. dx
 
 ROTATION_DIRECTION = -1# +1 corresponds to rotation direction about camera z axis, -1 is the opposite direction
@@ -413,48 +414,79 @@ def fbp(imgs, angles, Tproj, out_fname='volume', sampling_mm=2, filter_type='han
 
     return vol
 
-def get_point_cloud(vol, Thres=15, Deci=5, startHeightShare=0.1, endHeightShare=0.9):
+def thresholdImage(iImage, iThreshold):
+    oImage = 255 * np.array(iImage > iThreshold, dtype='uint8')
+    return oImage
 
-    def linScale(iImage, oMax):
-        k = oMax/np.max(iImage)
-        oImage = k*iImage
-        return oImage
+# def get_point_cloud(vol, Thres=15, Deci=5, startHeightShare=0.1, endHeightShare=0.9):
 
-    def thresholdImage(iImage, iThreshold):
-        oImage = 255 * np.array(iImage > iThreshold, dtype='uint8')
-        return oImage
+#     # def linScale(iImage, oMax):
+#     #     k = oMax/np.max(iImage)
+#     #     oImage = k*iImage
+#     #     return oImage
+
+#     pointCoorX = []
+#     pointCoorY = []
+#     pointCoorZ = []
+#     dvol = np.ones_like(vol)
+
+#     dZ = len(vol[0,0,:])
+#     endZ = int(np.round(dZ*endHeightShare))
+#     startZ = int(np.round(dZ*startHeightShare))
+
+#     vol = vol[:,:,startZ:endZ]
+#     [dx, dy, dz] = vol.shape
+
+#     for z in range(dz):
+#         dImage = vol[:,:,z]
+#         #dImage = linScale(dImage, 255)
+#         dImage = thresholdImage(dImage, np.max(dImage)/2)
+
+#         for x in range(dx):
+#             for y in range(dy):
+#                 dvol[x,y,z] = dImage[x,y]
+
+#                 if (dImage[x, y] == 0):
+#                     pointCoorX.append(x)
+#                     pointCoorY.append(y)
+#                     pointCoorZ.append(z)
+
+#     #redcenje tock
+#     pointCoorX = pointCoorX[::Deci]
+#     pointCoorY = pointCoorY[::Deci]
+#     pointCoorZ = pointCoorZ[::Deci]
+#     return pointCoorX, pointCoorY, pointCoorZ
+
+def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, endHeightShare=0.9):
 
     pointCoorX = []
     pointCoorY = []
     pointCoorZ = []
-    dvol = np.ones_like(vol)
 
-    dZ = len(vol[0,0,:])
-    endZ = int(np.round(dZ*endHeightShare))
-    startZ = int(np.round(dZ*startHeightShare))
+    initZ = len(vol[0,0,:])
 
+    startZ = int(np.round(startHeightShare*initZ))
+    endZ = int(np.round(endHeightShare*initZ))
     vol = vol[:,:,startZ:endZ]
+
     [dx, dy, dz] = vol.shape
+    for dZ in range(dz):
+        dImage = vol[:,:,dZ]
+        dImage = dImage + abs(np.min(dImage))
+        dImage = thresholdImage(dImage, np.max(dImage)*ThresImageMaxShare)
+        for dX in range(dx):
+            for dY in range(dy):
+                if (dImage[dX, dY] == 0):
+                    pointCoorX.append(dX)
+                    pointCoorY.append(dY)
+                    pointCoorZ.append(dZ)
 
-    for z in range(dz):
-        dImage = vol[:,:,z]
-        #dImage = linScale(dImage, 255)
-        dImage = thresholdImage(dImage, Thres)
-
-        for x in range(dx):
-            for y in range(dy):
-                dvol[x,y,z] = dImage[x,y]
-
-                if (dImage[x, y] <= Thres):
-                    pointCoorX.append(x)
-                    pointCoorY.append(y)
-                    pointCoorZ.append(z)
-
-    #redcenje tock
     pointCoorX = pointCoorX[::Deci]
     pointCoorY = pointCoorY[::Deci]
     pointCoorZ = pointCoorZ[::Deci]
+
     return pointCoorX, pointCoorY, pointCoorZ
+
 
 def plot_point_cloud(X, Y, Z):
     fig = plt.figure()
@@ -474,3 +506,23 @@ def plot_point_cloud(X, Y, Z):
 
     plt.grid()
     plt.show()
+
+def crop_image(iImageArray, pxFromRight, pxFromLeft, pxFromUp, pxFromDown):
+    #original iz maina
+    # # obrezovanje
+    # slika_x, slika_y = slike[0].shape
+    # nslike = []
+    # for sl in range(len(slike)):
+    #     dslika =  slike[sl]
+    #     dslika = dslika[200:slika_x-100, 300:slika_y-300]
+    #     nslike.append(dslika)
+
+    # slike = nslike
+    slika_x, slika_y = iImageArray[0].shape
+    oImageArray = []
+    for sl in range(len(iImageArray)):
+        dImage =  iImageArray[sl]
+        dImage = dImage[pxFromUp:slika_x-pxFromDown, pxFromLeft:slika_y-pxFromRight]
+        oImageArray.append(dImage)
+
+    return oImageArray
