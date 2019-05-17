@@ -151,7 +151,7 @@ def dlt_calibration(pts2d, pts3d):
     :return: Transformation matrix
     '''
 
-    def get_mat_row(pt2d, pt3d): #vhod v funkcijo je posamezna točka
+    def get_mat_row(pt2d, pt3d): #vhod v funkcijo je posamezna točka v koordinatah (x,y,z)
         row1 = np.array((pt3d[0], pt3d[1], pt3d[2], 1, 0, 0, 0, 0, -pt3d[0]*pt2d[0], -pt3d[1]*pt2d[0], -pt3d[2]*pt2d[0]))
         row2 = np.array((0, 0, 0, 0, pt3d[0], pt3d[1], pt3d[2], 1, -pt3d[0]*pt2d[1], -pt3d[1]*pt2d[1], -pt3d[2]*pt2d[1]))
         return np.vstack((row1, row2)), np.vstack((pt2d[0], pt2d[1]))
@@ -161,8 +161,8 @@ def dlt_calibration(pts2d, pts3d):
     for i in range(pts2d.shape[0]):
         # print(dmat.shape)
         # print(get_mat_row(ptsW[i,:], ptsU[i,:]).shape)
-        dmatp, dvecp = get_mat_row(pts2d[i, :], pts3d[i, :])
-        dmat = np.vstack((dmat, dmatp))
+        dmatp, dvecp = get_mat_row(pts2d[i, :], pts3d[i, :]) #notri da korespondenčni točki
+        dmat = np.vstack((dmat, dmatp)) #ubistu appendamo v matriko matrike dmatp
         dvec = np.vstack((dvec, dvecp))
     return dmat, dvec
 
