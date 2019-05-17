@@ -12,6 +12,7 @@ import reconlib as rl
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = 'C:/Users/PTIT/Desktop/PTIT/data'
 pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
+pth = 'C:/Users/lapaj/oneDrive/RV_Seminar_v2/rekonstrukcija_minimal'
 
 #acquisition_data_pth = join(pth, 'acquisitions', 'klovn30')
 acquisition_data_pth = join(pth, 'acquisitions', 'kocka')
