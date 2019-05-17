@@ -10,7 +10,6 @@ from os.path import join
 import reconlib as rl
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
-# pth = 'C:/Users/PTIT/Desktop/PTIT/data'
 pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
 pth = 'C:/Users/lapaj/oneDrive/RV_Seminar_v2/rekonstrukcija_minimal'
 
@@ -24,14 +23,7 @@ out_volume_fname = join(pth, 'reconstructions', 'kocka3d.nrrd')
 slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
 
 # # obrezovanje
-# slika_x, slika_y = slike[0].shape
-# nslike = []
-# for sl in range(len(slike)):
-#     dslika =  slike[sl]
-#     dslika = dslika[200:slika_x-100, 300:slika_y-300]
-#     nslike.append(dslika)
-
-# slike = nslike
+# ce potrebujes -> (ni se preverjena)funkcija crop_image
 
 # rl.showImage(slike[10])
 # plt.show()
@@ -71,16 +63,11 @@ slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.75)
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
-              filter_type='hann', sampling_mm=1,
+              filter_type='hann', sampling_mm=3,
               out_fname=out_volume_fname)
 
-Thres = 0.000001
-Deci = 5
-endHeightShare = 0.9
-startHeightShare = 0.1
-
 # ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, Thres, Deci, startHeightShare, endHeightShare)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.3, 5, 0.2, 0.85)
 
 # ---------- IZRIS POINT CLOUD ----------
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
