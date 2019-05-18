@@ -211,11 +211,11 @@ def ramp_flat(n):
     :param n: Size of the filter, should be of power of 2. 
     :return: Ramp filter response vector.
     '''
-    nn = np.arange(-(n // 2), (n // 2))
+    nn = np.arange(-(n // 2), (n // 2)) 
     h = np.zeros((nn.size,), dtype='float')
-    h[n // 2] = 1 / 4
-    odd = np.mod(nn, 2) == 1
-    h[odd] = -1.0 / (np.pi * nn[odd]) ** 2.0;
+    h[n // 2] = 1 / 4 #in the middle sets 1/4
+    odd = np.mod(nn, 2) == 1 #make array : [False,  True, False, ...,  True, False,  True]
+    h[odd] = -1.0 / (np.pi * nn[odd]) ** 2.0
     return h, nn
 
 def nextpow2(i):
@@ -276,7 +276,7 @@ def get_volume(voldims=(100, 100, 100), sampling_mm=1):
         sampling_mm = [sampling_mm] * 3
     # get sampling points; the grid is axis aligned, and defined wrt to reference
     # point on top of the caliber, which is determined by imaging the caliber
-    xr = np.arange(-voldims[0] / 2, voldims[0] / 2, sampling_mm[0])
+    xr = np.arange(-voldims[0] / 2, voldims[0] / 2, sampling_mm[0]) #prepare sampling points regarding volume taken
     yr = np.arange(-voldims[1] / 2, voldims[1] / 2, sampling_mm[1])
     zr = np.arange(0, voldims[2], sampling_mm[2])
     xg, yg, zg = np.meshgrid(xr, yr, zr, indexing='xy')
@@ -308,7 +308,7 @@ def filter_projection(proj, filter_type='hann', cut_off=1, axis=0):
     ramp_kernel, nn = ramp_flat(filt_len)
 
     filt = create_filter(filter_type, ramp_kernel, filt_len, cut_off)
-    filt = np.tile(filt[:, np.newaxis], nv)
+    filt = np.tile(filt[:, np.newaxis], nv) #Construct an array by repeating A the number of times given by reps.
 
     # append zeros
     fproj = np.zeros((filt_len, nv), dtype='float')
@@ -361,7 +361,7 @@ def fbp(imgs, angles, Tproj, out_fname='volume', sampling_mm=2, filter_type='han
 
     # initialize volume
     vol = np.zeros(grid_size)
-    xs, ys, zs = grid_size
+     xs, ys, zs = grid_size
 
     for i in range(len(angles) - 1):
         # display current status
