@@ -64,11 +64,11 @@ slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.9)
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
-              filter_type='hann', sampling_mm=3,
+              filter_type='hann', sampling_mm=2,
               out_fname=out_volume_fname, cut_off=0.9)
 
 # ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.4, 5, 0, 0.85)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 10, 0, 0.80)
 
 # ---------- IZRIS POINT CLOUD ----------
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
