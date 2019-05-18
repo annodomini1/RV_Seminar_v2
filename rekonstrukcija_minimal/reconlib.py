@@ -48,8 +48,8 @@ ROTATION_DIRECTION = -1# +1 corresponds to rotation direction about camera z axi
 
 # The volume is rectangular and camera-axis aligned. It is defined w.r.t. reference point on top of the caliber,
 # which is determined by imaging the calibration object.
-VOLUME_LENGTH = 200# x size
-VOLUME_WIDTH = 200# y size
+VOLUME_LENGTH = 300# x size
+VOLUME_WIDTH = 300# y size
 VOLUME_HEIGHT = 300# z size
 
 

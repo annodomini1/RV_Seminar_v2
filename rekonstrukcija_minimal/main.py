@@ -14,10 +14,10 @@ pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
 
 #acquisition_data_pth = join(pth, 'acquisitions', 'klovn30')
 acquisition_data_pth = join(pth, 'acquisitions', 'kocka')
-calibration_image_fname = join(pth, 'calibration', 'kalib.jpg')
+calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
 calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra_aneja.npy')
 # out_volume_fname = join(pth, 'reconstructions', 'klovn3d.nrrd')
-out_volume_fname = join(pth, 'reconstructions', 'kocka3d.nrrd')
+out_volume_fname = join(pth, 'reconstructions', 'ozilje.nrrd')
 
 slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
 
@@ -55,18 +55,20 @@ plt.plot(pts3dproj[:,0], pts3dproj[:,1],'gx', markersize=15)
 
 # ---------- FILTRIRANJE 2D SLIK PRED POVRATNO PROJEKCIJO ----------
 slika = np.squeeze(slike[0])
-tip_filtra = 'hann'  # none, ram-lak, cosine, hann, hamming
-slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.75)
-# imlib.showImage(slika_f, iCmap=cm.jet)
+#tip_filtra = 'hann'  # none, ram-lak, cosine, hann, hamming
+tip_filtra = 'hann'
+slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.9)
+# rl.showImage(slika_f, iCmap=cm.jet)
+# plt.show()
 
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
               filter_type='hann', sampling_mm=3,
-              out_fname=out_volume_fname)
+              out_fname=out_volume_fname, cut_off=0.9)
 
 # ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.3, 5, 0.2, 0.85)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.4, 5, 0, 0.85)
 
 # ---------- IZRIS POINT CLOUD ----------
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
