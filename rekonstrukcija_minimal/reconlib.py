@@ -308,7 +308,7 @@ def filter_projection(proj, filter_type='hann', cut_off=1, axis=0):
     ramp_kernel, nn = ramp_flat(filt_len)
 
     filt = create_filter(filter_type, ramp_kernel, filt_len, cut_off)
-    filt = np.tile(filt[:, np.newaxis], nv) #Construct an array by repeating A the number of times given by reps.
+    filt = np.tile(filt[:, np.newaxis], nv) #Construct an array by repeating A the number of times given by reps (nv)
 
     # append zeros
     fproj = np.zeros((filt_len, nv), dtype='float')
@@ -361,7 +361,7 @@ def fbp(imgs, angles, Tproj, out_fname='volume', sampling_mm=2, filter_type='han
 
     # initialize volume
     vol = np.zeros(grid_size)
-     xs, ys, zs = grid_size
+    xs, ys, zs = grid_size
 
     for i in range(len(angles) - 1):
         # display current status
@@ -378,8 +378,8 @@ def fbp(imgs, angles, Tproj, out_fname='volume', sampling_mm=2, filter_type='han
 
         # define function to put points in reference space
         get_grid_at_angle = lambda ang: \
-            np.dot(np.dot(Tproj[1], transRigid3D(trans=(0, 0, 0), rot=(0, 0, ang))),
-                   np.transpose(grid_raw)).transpose()
+            np.dot(np.dot(Tproj[1], transRigid3D(trans=(0, 0, 0), rot=(0, 0, ang))), #Tproj[1] == Ttable
+                   np.transpose(grid_raw)).transpose()  
 
         # project points to imaging plane
         grid = np.dot(get_grid_at_angle(deg2rad(ROTATION_DIRECTION*angles[i])), Tproj[0].transpose())
