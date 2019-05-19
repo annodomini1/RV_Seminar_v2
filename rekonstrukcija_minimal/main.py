@@ -64,11 +64,13 @@ slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.9)
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
-              filter_type='hann', sampling_mm=2,
-              out_fname=out_volume_fname, cut_off=0.9)
+              filter_type='hann', sampling_mm=3,
+              out_fname=out_volume_fname, cut_off=0.75)
 
 # ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 10, 0, 0.80)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.8, 5, 0, 1, 40)
 
 # ---------- IZRIS POINT CLOUD ----------
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
+
+#TODO: stestiraj drug threshold: https://docs.opencv.org/3.1.0/d7/d4d/tutorial_py_thresholding.html
