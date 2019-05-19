@@ -47,7 +47,7 @@ if not os.path.exists(calibration_data_fname):
 pts2d = np.load(calibration_data_fname)[0]
 
 # ---------- KALIBRIRAJ SISTEM ZA ZAJEM SLIK ----------
-Tproj, pts3dproj = rl.calibrate_irct(pts2d, pts3d)
+Tproj, pts3dproj = rl.calibrate_irct(pts2d, pts3d) #Tproj- incldes: Tproj and Ttable!
 
 # plt.close('all')
 # imlib.showImage(slike[0], iTitle='Oznacena sredisca krogel na kalibru.')
