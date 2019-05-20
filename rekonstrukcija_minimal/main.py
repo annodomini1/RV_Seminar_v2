@@ -12,14 +12,30 @@ import reconlib as rl
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
-pth = 'C:/Users/lapaj/oneDrive/RV_Seminar_v2/rekonstrukcija_minimal'
+# pth = 'C:/Users/lapaj/oneDrive/RV_Seminar_v2/rekonstrukcija_minimal'
 
-#acquisition_data_pth = join(pth, 'acquisitions', 'klovn30')
-acquisition_data_pth = join(pth, 'acquisitions', 'kocka')
 calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
-calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra_aneja.npy')
-# out_volume_fname = join(pth, 'reconstructions', 'klovn3d.nrrd')
-out_volume_fname = join(pth, 'reconstructions', 'ozilje.nrrd')
+calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra.npy')
+#source
+acquisition_data_pth = join(pth, 'acquisitions', '0stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '45stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '90stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '135stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '180stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '225stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '315stopinj')
+# acquisition_data_pth = join(pth, 'acquisitions', '0stopinj_ref90')
+# acquisition_data_pth = join(pth, 'acquisitions', 'slusalke90')
+#results
+out_volume_fname = join(pth, 'reconstructions', '0stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '45stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '90stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '135stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '180stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '225stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '315stopinj.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', '0stopinj_ref90.nrrd')
+# out_volume_fname = join(pth, 'reconstructions', 'slusalke90.nrrd')
 
 slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
 
@@ -66,28 +82,31 @@ slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.9)
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
-              filter_type='hann', sampling_mm=1,
+              filter_type='hann', sampling_mm=3,
               out_fname=out_volume_fname, cut_off=0.75)
 
 # ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.9, 5, 0, 1, 40)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 5, 0.1, 0.9, 50)
 
 # ---------- IZRIS POINT CLOUD ----------
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
 
-#TODO: stestiraj drug threshold: https://docs.opencv.org/3.1.0/d7/d4d/tutorial_py_thresholding.html
-
-# import cv2
-# dimage = vol[:,:,60]
-# dimage = dimage + abs(np.min(dimage))
-
-# def scaleImage(iImage):
-#         oImage = (255/np.max(iImage))*iImage
-#         return oImage
-# oimage = scaleImage(dimage)
-# oimage = cv2.medianBlure(oimage, 5)
-# print(np.min(oimage), np.max(oimage))
-# rl.showImage(oimage)
+# dimage = vol[:,:,90]
+# rl.showImage(dimage)
 # plt.show()
+
+#TODO: shrani oblake tock
+
+points = np.vstack((pointCoorX, pointCoorY, pointCoorZ))
+points = points.transpose()
+print(points.shape)
+
+
+# oblak tock (potrebujes py3)
+import pandas as pd
+from pyntcloud import PyntCloud
+
+cloud = PyntCloud(pd.DataFrame(points))
+cloud.to_file("output.ply")
 
 print("konc")

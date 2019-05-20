@@ -64,9 +64,9 @@ def IRCT_CALIBRATION_OBJECT():
     """
     #h = 8
     h = 90
-    #x kaže v smeri od kalibracijskega objekta do kamere
-    #z kaže navzgor
-    #y kaže tako, da imamo desnosučni KS
+    #x kaze v smeri od kalibracijskega objekta do kamere
+    #z kaze navzgor
+    #y kaze tako, da imamo desnosucni KS
     pts = [
         [0,0,134+h], #[x,y,z]
         [33,0,108+h],
@@ -154,7 +154,7 @@ def dlt_calibration(pts2d, pts3d):
     :return: Transformation matrix
     '''
 
-    def get_mat_row(pt2d, pt3d): #vhod v funkcijo je posamezna točka v koordinatah (x,y,z)
+    def get_mat_row(pt2d, pt3d): #vhod v funkcijo je posamezna tocka v koordinatah (x,y,z)
         row1 = np.array((pt3d[0], pt3d[1], pt3d[2], 1, 0, 0, 0, 0, -pt3d[0]*pt2d[0], -pt3d[1]*pt2d[0], -pt3d[2]*pt2d[0]))
         row2 = np.array((0, 0, 0, 0, pt3d[0], pt3d[1], pt3d[2], 1, -pt3d[0]*pt2d[1], -pt3d[1]*pt2d[1], -pt3d[2]*pt2d[1]))
         return np.vstack((row1, row2)), np.vstack((pt2d[0], pt2d[1]))
@@ -164,7 +164,7 @@ def dlt_calibration(pts2d, pts3d):
     for i in range(pts2d.shape[0]):
         # print(dmat.shape)
         # print(get_mat_row(ptsW[i,:], ptsU[i,:]).shape)
-        dmatp, dvecp = get_mat_row(pts2d[i, :], pts3d[i, :]) #notri da korespondenčni točki
+        dmatp, dvecp = get_mat_row(pts2d[i, :], pts3d[i, :]) #notri da korespondencni tocki
         dmat = np.vstack((dmat, dmatp)) #ubistu appendamo v matriko matrike dmatp
         dvec = np.vstack((dvec, dvecp))
     return dmat, dvec
@@ -448,10 +448,6 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
         distance = np.sqrt((centerX - pointX)**2 + (centerY - pointY)**2)
         return distance
 
-    def scaleImage(iImage):
-        oImage = (255/np.max(iImage))*iImage
-        return oImage
-
     pointCoorX = []
     pointCoorY = []
     pointCoorZ = []
@@ -470,6 +466,7 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
         dImage = dImage + abs(np.min(dImage))
 
         dImage = thresholdImage(dImage, np.median(dImage)*ThresImageMaxShare)
+        #dImage = thresholdImage(dImage, np.mean(dImage)*ThresImageMaxShare)
         #dImage = thresholdImage(dImage, np.max(dImage)*ThresImageMaxShare)
 
         for dX in range(dx):
@@ -486,7 +483,7 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
 
     return pointCoorX, pointCoorY, pointCoorZ
 
-# def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, endHeightShare=0.9, circleRadiusLimit=20):
+# def get_point_cloud(vol, weight=7, Deci=5, startHeightShare=0.1, endHeightShare=0.9, circleRadiusLimit=20):
 
 #     def distanceFromCenter(centerX, centerY, pointX, pointY):
 #         distance = np.sqrt((centerX - pointX)**2 + (centerY - pointY)**2)
@@ -513,10 +510,9 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
 #         dImage = vol[:,:,dZ]
 #         dImage = dImage + abs(np.min(dImage))
 #         dImage = scaleImage(dImage)
-#         dImage = cv.medianBlur(dImage,5)
-#         dImage = cv.adaptiveThreshold(dImage,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,11,2)
-#         #dImage = thresholdImage(dImage, np.median(dImage)*ThresImageMaxShare)
-#         #dImage = thresholdImage(dImage, np.max(dImage)*ThresImageMaxShare)
+#         dImage = cv.medianBlur(dImage.astype(np.float32), 7)
+#         dImage = dImage.astype('uint8')
+#         dImage = cv.adaptiveThreshold(dImage,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,9, weight)
 
 #         for dX in range(dx):
 #             for dY in range(dy):
