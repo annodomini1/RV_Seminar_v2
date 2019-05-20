@@ -52,7 +52,7 @@ ROTATION_DIRECTION = -1# +1 corresponds to rotation direction about camera z axi
 # which is determined by imaging the calibration object.
 VOLUME_LENGTH = 350# x size
 VOLUME_WIDTH = 350# y size
-VOLUME_HEIGHT = 350# z size
+VOLUME_HEIGHT = 300# z size
 
 
 def IRCT_CALIBRATION_OBJECT():
@@ -424,45 +424,6 @@ def thresholdImage(iImage, iThreshold):
     oImage = 255 * np.array(iImage > iThreshold, dtype='uint8')
     return oImage
 
-# def get_point_cloud(vol, Thres=15, Deci=5, startHeightShare=0.1, endHeightShare=0.9):
-
-#     # def linScale(iImage, oMax):
-#     #     k = oMax/np.max(iImage)
-#     #     oImage = k*iImage
-#     #     return oImage
-
-#     pointCoorX = []
-#     pointCoorY = []
-#     pointCoorZ = []
-#     dvol = np.ones_like(vol)
-
-#     dZ = len(vol[0,0,:])
-#     endZ = int(np.round(dZ*endHeightShare))
-#     startZ = int(np.round(dZ*startHeightShare))
-
-#     vol = vol[:,:,startZ:endZ]
-#     [dx, dy, dz] = vol.shape
-
-#     for z in range(dz):
-#         dImage = vol[:,:,z]
-#         #dImage = linScale(dImage, 255)
-#         dImage = thresholdImage(dImage, np.max(dImage)/2)
-
-#         for x in range(dx):
-#             for y in range(dy):
-#                 dvol[x,y,z] = dImage[x,y]
-
-#                 if (dImage[x, y] == 0):
-#                     pointCoorX.append(x)
-#                     pointCoorY.append(y)
-#                     pointCoorZ.append(z)
-
-#     #redcenje tock
-#     pointCoorX = pointCoorX[::Deci]
-#     pointCoorY = pointCoorY[::Deci]
-#     pointCoorZ = pointCoorZ[::Deci]
-#     return pointCoorX, pointCoorY, pointCoorZ
-
 def calculate_threshold_percentage(image, percentage):
     flat_image = image.flatten()
     sort_flat_image = np.sort(flat_image)
@@ -481,44 +442,15 @@ def calculate_threshold_percentage(image, percentage):
 
     return t
 
-# def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, endHeightShare=0.9):
-
-#     pointCoorX = []
-#     pointCoorY = []
-#     pointCoorZ = []
-
-#     initZ = len(vol[0,0,:])
-
-#     startZ = int(np.round(startHeightShare*initZ))
-#     endZ = int(np.round(endHeightShare*initZ))
-#     vol = vol[:,:,startZ:endZ]
-
-#     [dx, dy, dz] = vol.shape
-#     for dZ in range(dz):
-#         dImage = vol[:,:,dZ]
-#         dImage = dImage + abs(np.min(dImage))
-
-#         dImage = thresholdImage(dImage, np.median(dImage)*ThresImageMaxShare)
-#         #dImage = thresholdImage(dImage, np.max(dImage)*ThresImageMaxShare)
-
-#         for dX in range(dx):
-#             for dY in range(dy):
-#                 if (dImage[dX, dY] == 0):
-#                     pointCoorX.append(dX)
-#                     pointCoorY.append(dY)
-#                     pointCoorZ.append(dZ)
-
-#     pointCoorX = pointCoorX[::Deci]
-#     pointCoorY = pointCoorY[::Deci]
-#     pointCoorZ = pointCoorZ[::Deci]
-
-#     return pointCoorX, pointCoorY, pointCoorZ
-
 def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, endHeightShare=0.9, circleRadiusLimit=20):
 
     def distanceFromCenter(centerX, centerY, pointX, pointY):
         distance = np.sqrt((centerX - pointX)**2 + (centerY - pointY)**2)
         return distance
+
+    def scaleImage(iImage):
+        oImage = (255/np.max(iImage))*iImage
+        return oImage
 
     pointCoorX = []
     pointCoorY = []
@@ -553,6 +485,52 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
     pointCoorZ = pointCoorZ[::Deci]
 
     return pointCoorX, pointCoorY, pointCoorZ
+
+# def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, endHeightShare=0.9, circleRadiusLimit=20):
+
+#     def distanceFromCenter(centerX, centerY, pointX, pointY):
+#         distance = np.sqrt((centerX - pointX)**2 + (centerY - pointY)**2)
+#         return distance
+
+#     def scaleImage(iImage):
+#         oImage = (255/np.max(iImage))*iImage
+#         return oImage
+
+#     pointCoorX = []
+#     pointCoorY = []
+#     pointCoorZ = []
+
+#     initZ = len(vol[0,0,:])
+
+#     startZ = int(np.round(startHeightShare*initZ))
+#     endZ = int(np.round(endHeightShare*initZ))
+#     vol = vol[:,:,startZ:endZ]
+
+#     [dx, dy, dz] = vol.shape
+#     centerX = dx/2
+#     centerY = dy/2
+#     for dZ in range(dz):
+#         dImage = vol[:,:,dZ]
+#         dImage = dImage + abs(np.min(dImage))
+#         dImage = scaleImage(dImage)
+#         dImage = cv.medianBlur(dImage,5)
+#         dImage = cv.adaptiveThreshold(dImage,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,11,2)
+#         #dImage = thresholdImage(dImage, np.median(dImage)*ThresImageMaxShare)
+#         #dImage = thresholdImage(dImage, np.max(dImage)*ThresImageMaxShare)
+
+#         for dX in range(dx):
+#             for dY in range(dy):
+#                 if (distanceFromCenter(centerX, centerY, dX, dY) < circleRadiusLimit):
+#                     if (dImage[dX, dY] == 0):
+#                         pointCoorX.append(dX)
+#                         pointCoorY.append(dY)
+#                         pointCoorZ.append(dZ)
+
+#     pointCoorX = pointCoorX[::Deci]
+#     pointCoorY = pointCoorY[::Deci]
+#     pointCoorZ = pointCoorZ[::Deci]
+
+#     return pointCoorX, pointCoorY, pointCoorZ
 
 def plot_point_cloud(X, Y, Z):
     fig = plt.figure()
