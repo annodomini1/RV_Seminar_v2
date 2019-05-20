@@ -65,7 +65,7 @@ slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.9)
 # ---------- REKONSTRUKCIJA 3D SLIKE ----------
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
-              filter_type='hann', sampling_mm=3,
+              filter_type='hann', sampling_mm=1,
               out_fname=out_volume_fname, cut_off=0.75)
 
 # ---------- VOL -> POINT CLOUD ----------
