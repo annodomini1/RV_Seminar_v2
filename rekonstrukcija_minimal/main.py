@@ -4,6 +4,7 @@ import matplotlib.cm as cm
 import PIL.Image as im
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+import cv2 as cv
 
 from os.path import join
 
@@ -68,9 +69,24 @@ vol = rl.fbp(slike[::1], koti[::1], Tproj,
               out_fname=out_volume_fname, cut_off=0.75)
 
 # ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.8, 5, 0, 1, 40)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.9, 5, 0, 1, 40)
 
 # ---------- IZRIS POINT CLOUD ----------
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
 
 #TODO: stestiraj drug threshold: https://docs.opencv.org/3.1.0/d7/d4d/tutorial_py_thresholding.html
+
+# import cv2
+# dimage = vol[:,:,60]
+# dimage = dimage + abs(np.min(dimage))
+
+# def scaleImage(iImage):
+#         oImage = (255/np.max(iImage))*iImage
+#         return oImage
+# oimage = scaleImage(dimage)
+# oimage = cv2.medianBlure(oimage, 5)
+# print(np.min(oimage), np.max(oimage))
+# rl.showImage(oimage)
+# plt.show()
+
+print("konc")
