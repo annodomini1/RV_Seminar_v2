@@ -807,7 +807,7 @@ def prepare_sets(modelCoor, dataCoor):
     data_in = np.dstack((pointCoorX,pointCoorY,pointCoorZ, np.ones([np.size(pointCoorZ)])))
     data_in = data_in[0]
 
-    visualize(data_in, model_in) #visualise transformed and nontransformed data
+    # visualize(data_in, model_in) #visualise transformed and nontransformed data
 
     if np.shape(data_in)[0] < np.shape(model_in)[0]:
         index_lim = np.shape(data_in)[0]

@@ -153,9 +153,12 @@ for ends in range(len(files_endings)):
     register_points_icp_best, angleZ_aprox = rl.transform_data(model_in, data_in, 10)
     angle_appx_list.append(angleZ_aprox)
 
-x = np.arange(len(angle_appx_list))
+x = np.arange(1,len(angle_appx_list)+1)
 angle_ref = [45, 90, 135, 180, 225, 315]
-plt.plot( x, angle_ref,  color='red', linewidth=2, label="reference")
-plt.plot( x, angle_appx_list, color='blue', linewidth=2, label="actual")
+plt.plot( x, angle_ref,'.--',  color='red', linewidth=1, label="Referenčne")
+plt.plot( x, angle_appx_list, '.--', color='blue', linewidth=1, label="Dejanske")
 plt.legend()
+plt.xlabel('Številka oblaka točk')
+plt.ylabel('kot [°]')
+plt.show()
 
