@@ -110,33 +110,52 @@ plt.show()
 
 
 
-
 #------------- PORAVNAVA TEST------------------
-model_in = np.dstack((pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref, np.ones([np.size(pointCoorZ_ref)])))
-model_in = model_in[0]
-data_in = np.dstack((pointCoorX,pointCoorY,pointCoorZ, np.ones([np.size(pointCoorZ)])))
-data_in = data_in[0]
+# modelCoor = [pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref]
+# dataCoor = [pointCoorX,pointCoorY,pointCoorZ]
+# model_in, data_in = rl.prepare_sets(modelCoor, dataCoor)
 
-rl.visualize(data_in, model_in) #visualise transformed and nontransformed data
+# #transform both point cloud to center of coordinate system
+# Mat_trans = rl.transAffine3D(iTrans = (-59,-59,0))
+# model_in = np.dot(model_in, Mat_trans.transpose())
+# data_in = np.dot(data_in, Mat_trans.transpose())
+# rl.visualize(data_in, model_in)
 
-if np.shape(data_in)[0] < np.shape(model_in)[0]:
-    index_lim = np.shape(data_in)[0]
-elif np.shape(data_in)[0] > np.shape(model_in)[0]:
-    index_lim = np.shape(model_in)[0]
+# #align both data sets
+# register_points_icp_best, angleZ_aprox = rl.transform_data(model_in, data_in, 10)
+# rl.visualize(register_points_icp_best, model_in)
 
-model_in = model_in[np.random.randint(0, np.shape(model_in)[0], index_lim)]
-data_in = data_in[np.random.randint(0, np.shape(data_in)[0], index_lim)]
-
-#transform both point cloud to center of coordinate system
-Mat_trans = rl.transAffine3D(iTrans = (-59,-59,0))
-model_in = np.dot(model_in, Mat_trans.transpose())
-data_in = np.dot(data_in, Mat_trans.transpose())
-rl.visualize(data_in, model_in)
-
-#align both data sets
-register_points_icp_best, angleZ_aprox = rl.transform_data(model_in, data_in, 10)
-rl.visualize(register_points_icp_best, model_in)
-
-print(angleZ_aprox)
+# print(angleZ_aprox)
 
 #----------------- IZRIS GRAF NAPAKE PORAVNAVE ---------------------------
+
+files_endings = ['45stopinj', '90stopinj', '135stopinj', '180stopinj', '225stopinj', '315stopinj']
+angle_appx_list = []
+for ends in range(len(files_endings)):
+    acquisition_data_pth = join(pth, 'acquisitions', files_endings[ends])
+    slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
+    vol = rl.fbp(slike[::1], koti[::1], Tproj,
+                filter_type='hann', sampling_mm=3,
+                out_fname=out_volume_fname, cut_off=0.75)
+
+    pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 1, 0.1, 0.9, 50)
+
+    modelCoor = [pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref]
+    dataCoor = [pointCoorX,pointCoorY,pointCoorZ]
+    model_in, data_in = rl.prepare_sets(modelCoor, dataCoor)
+
+    #transform both point cloud to center of coordinate system
+    Mat_trans = rl.transAffine3D(iTrans = (-59,-59,0))
+    model_in = np.dot(model_in, Mat_trans.transpose())
+    data_in = np.dot(data_in, Mat_trans.transpose())
+
+    #align both data sets
+    register_points_icp_best, angleZ_aprox = rl.transform_data(model_in, data_in, 10)
+    angle_appx_list.append(angleZ_aprox)
+
+x = np.arange(len(angle_appx_list))
+angle_ref = [45, 90, 135, 180, 225, 315]
+plt.plot( x, angle_ref,  color='red', linewidth=2, label="reference")
+plt.plot( x, angle_appx_list, color='blue', linewidth=2, label="actual")
+plt.legend()
+

@@ -412,13 +412,14 @@ def fbp(imgs, angles, Tproj, out_fname='volume', sampling_mm=2, filter_type='han
         vol = vol + img_backprojected
         vol[np.isnan(vol)] = 0
 
-    print('Writing volume to file "{}.nrrd"...'.format(out_fname))
-    if os.path.splitext(out_fname)[-1] != '.nrrd':
-        out_fname = '{}.nrrd'.format(out_fname)
+    ##if we want to create nrrd file
+    # print('Writing volume to file "{}.nrrd"...'.format(out_fname))
+    # if os.path.splitext(out_fname)[-1] != '.nrrd':
+    #     out_fname = '{}.nrrd'.format(out_fname)
 
-    img = itk.GetImageFromArray(np.transpose(vol, [2,1,0]))
-    img.SetSpacing(sampling_mm)
-    itk.WriteImage(img, out_fname, True)
+    # img = itk.GetImageFromArray(np.transpose(vol, [2,1,0]))
+    # img.SetSpacing(sampling_mm)
+    # itk.WriteImage(img, out_fname, True)
 
     return vol
 
@@ -796,3 +797,24 @@ def transform_data(model, data, search_step):
             mean_err_min = mean_err
 
     return register_points_icp_best, np.abs(angleZ_best)
+
+def prepare_sets(modelCoor, dataCoor):
+    pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref = modelCoor
+    pointCoorX,pointCoorY,pointCoorZ = dataCoor
+
+    model_in = np.dstack((pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref, np.ones([np.size(pointCoorZ_ref)])))
+    model_in = model_in[0]
+    data_in = np.dstack((pointCoorX,pointCoorY,pointCoorZ, np.ones([np.size(pointCoorZ)])))
+    data_in = data_in[0]
+
+    visualize(data_in, model_in) #visualise transformed and nontransformed data
+
+    if np.shape(data_in)[0] < np.shape(model_in)[0]:
+        index_lim = np.shape(data_in)[0]
+    elif np.shape(data_in)[0] > np.shape(model_in)[0]:
+        index_lim = np.shape(model_in)[0]
+
+    model_in = model_in[np.random.randint(0, np.shape(model_in)[0], index_lim)]
+    data_in = data_in[np.random.randint(0, np.shape(data_in)[0], index_lim)]
+
+    return model_in, data_in
