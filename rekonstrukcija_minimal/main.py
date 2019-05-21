@@ -5,19 +5,19 @@ import PIL.Image as im
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import cv2 as cv
-
 from os.path import join
-
 import reconlib as rl
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
-pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
-# pth = 'C:/Users/lapaj/oneDrive/RV_Seminar_v2/rekonstrukcija_minimal'
+# pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
+pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
 
 calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
 calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra.npy')
+
 #source
-acquisition_data_pth = join(pth, 'acquisitions', '0stopinj')
+acquisition_data_pth_ref = join(pth, 'acquisitions', '0stopinj')
+acquisition_data_pth = join(pth, 'acquisitions', '135stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '45stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '90stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '135stopinj')
@@ -26,8 +26,10 @@ acquisition_data_pth = join(pth, 'acquisitions', '0stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '315stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '0stopinj_ref90')
 # acquisition_data_pth = join(pth, 'acquisitions', 'slusalke90')
+
 #results
-out_volume_fname = join(pth, 'reconstructions', '0stopinj.nrrd')
+out_volume_fname_ref = join(pth, 'reconstructions', '0stopinj.nrrd')
+out_volume_fname = join(pth, 'reconstructions', '135stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '45stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '90stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '135stopinj.nrrd')
@@ -37,7 +39,7 @@ out_volume_fname = join(pth, 'reconstructions', '0stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '0stopinj_ref90.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', 'slusalke90.nrrd')
 
-slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
+slike_ref, koti_ref = rl.load_images(acquisition_data_pth_ref, proc=rl.rgb2gray)
 
 # # obrezovanje
 # ce potrebujes -> (ni se preverjena)funkcija crop_image
@@ -50,15 +52,16 @@ pts3d = rl.IRCT_CALIBRATION_OBJECT()
 # plt.close('all')
 # r3d.show_points_in_3d(pts3d)
 
+
 # ---------- OZNACI 8 TOCK NA KALIBRU, KI NAJ OZNACUJEJO SREDISCE KROGEL ----------
 if not os.path.exists(calibration_data_fname):
+    #order of centers selecting is important!
     calibration_image = np.array(im.open(calibration_image_fname))
-    # calibration_image = calibration_image[200:slika_x-100, 300:slika_y-300]
     pts2d =  rl.annotate_caliber_image(calibration_image, calibration_data_fname, n=8)
 
     plt.close('all')
     pts2d = np.load(calibration_data_fname)[0]
-    rl.showImage(slike[0], iTitle='Oznacena sredisca krogel na kalibru.')
+    rl.showImage(slike_ref[0], iTitle='Oznacena sredisca krogel na kalibru.')
     plt.plot(pts2d[:,0], pts2d[:,1],'mx',markersize=15)
 
 pts2d = np.load(calibration_data_fname)[0]
@@ -68,45 +71,72 @@ Tproj, pts3dproj = rl.calibrate_irct(pts2d, pts3d) #Tproj- incldes: Tproj and Tt
 
 # plt.close('all')
 # imlib.showImage(slike[0], iTitle='Oznacena sredisca krogel na kalibru.')
-plt.plot(pts2d[:,0], pts2d[:,1],'rx', markersize=15)
-plt.plot(pts3dproj[:,0], pts3dproj[:,1],'gx', markersize=15)
+# plt.plot(pts2d[:,0], pts2d[:,1],'rx', markersize=15)
+# plt.plot(pts3dproj[:,0], pts3dproj[:,1],'gx', markersize=15)
+
 
 # ---------- FILTRIRANJE 2D SLIK PRED POVRATNO PROJEKCIJO ----------
-slika = np.squeeze(slike[0])
+slika = np.squeeze(slike_ref[0])
 #tip_filtra = 'hann'  # none, ram-lak, cosine, hann, hamming
 tip_filtra = 'hann'
 slika_f = rl.filter_projection(slika, tip_filtra, cut_off=0.9)
 # rl.showImage(slika_f, iCmap=cm.jet)
 # plt.show()
 
-# ---------- REKONSTRUKCIJA 3D SLIKE ----------
+# ---------- REKONSTRUKCIJA 3D SLIKE (REFERENČNA)----------
+# FBP = Filtered BackProjection
+vol_ref = rl.fbp(slike_ref[::1], koti_ref[::1], Tproj,
+              filter_type='hann', sampling_mm=3,
+              out_fname=out_volume_fname_ref, cut_off=0.75)
+
+
+pointCoorX_ref, pointCoorY_ref, pointCoorZ_ref = rl.get_point_cloud(vol_ref, 0.5, 1, 0.1, 0.9, 50)
+
+# ---------- REKONSTRUKCIJA 3D SLIKE (IZBRANA)----------
+slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
+
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
               filter_type='hann', sampling_mm=3,
               out_fname=out_volume_fname, cut_off=0.75)
 
-# ---------- VOL -> POINT CLOUD ----------
-pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 5, 0.1, 0.9, 50)
+pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 1, 0.1, 0.9, 50)
+
 
 # ---------- IZRIS POINT CLOUD ----------
+rl.plot_point_cloud(pointCoorX_ref, pointCoorY_ref, pointCoorZ_ref)
 rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
-
-# dimage = vol[:,:,90]
-# rl.showImage(dimage)
-# plt.show()
-
-#TODO: shrani oblake tock
-
-points = np.vstack((pointCoorX, pointCoorY, pointCoorZ))
-points = points.transpose()
-print(points.shape)
+plt.show()
 
 
-# oblak tock (potrebujes py3)
-import pandas as pd
-from pyntcloud import PyntCloud
 
-cloud = PyntCloud(pd.DataFrame(points))
-cloud.to_file("output.ply")
 
-print("konc")
+#------------- PORAVNAVA TEST------------------
+model_in = np.dstack((pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref, np.ones([np.size(pointCoorZ_ref)])))
+model_in = model_in[0]
+data_in = np.dstack((pointCoorX,pointCoorY,pointCoorZ, np.ones([np.size(pointCoorZ)])))
+data_in = data_in[0]
+
+rl.visualize(data_in, model_in) #visualise transformed and nontransformed data
+
+if np.shape(data_in)[0] < np.shape(model_in)[0]:
+    index_lim = np.shape(data_in)[0]
+elif np.shape(data_in)[0] > np.shape(model_in)[0]:
+    index_lim = np.shape(model_in)[0]
+
+model_in = model_in[np.random.randint(0, np.shape(model_in)[0], index_lim)]
+data_in = data_in[np.random.randint(0, np.shape(data_in)[0], index_lim)]
+
+#transform both point cloud to center of coordinate system
+Mat_trans = rl.transAffine3D(iTrans = (-59,-59,0))
+model_in = np.dot(model_in, Mat_trans.transpose())
+data_in = np.dot(data_in, Mat_trans.transpose())
+rl.visualize(data_in, model_in)
+
+#align both data sets
+register_points_icp_best, angleZ_aprox = rl.transform_data(model_in, data_in, 10)
+rl.visualize(register_points_icp_best, model_in)
+
+print(angleZ_aprox)
+
+#----------------- IZRIS GRAF NAPAKE PORAVNAVE ---------------------------

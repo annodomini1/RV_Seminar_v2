@@ -9,6 +9,8 @@ import PIL.Image as im
 from os.path import join
 import scipy.ndimage as ni
 import cv2 as cv
+from sklearn.neighbors import NearestNeighbors
+import sys
 
 def rgb2gray(img):
     '''
@@ -188,7 +190,7 @@ def calibrate_irct(pts2d, pts3d):
     # position points in space
     # pts3dcam = np.array((0,0,0,1))
     pts3dh = np.hstack((pts3d, np.ones((np.size(pts3d, 0), 1))))
-    pts3dht = np.dot(np.dot(Ttable, transRigid3D(rot=(0, 0, -np.pi))), np.transpose(pts3dh))
+    pts3dht = np.dot(np.dot(Ttable, transRigid3D(rot=(0, 0, 0))), np.transpose(pts3dh))
     pts3dht = np.transpose(pts3dht)
 
     # sensor_size = 25.4/4 # 1/4" is the sensor size
@@ -545,7 +547,7 @@ def plot_point_cloud(X, Y, Z):
         ax.plot([xb], [yb], [zb], 'w')
 
     plt.grid()
-    plt.show()
+    # plt.show()
 
 def crop_image(iImageArray, pxFromRight, pxFromLeft, pxFromUp, pxFromDown):
     #original iz maina
@@ -584,3 +586,213 @@ def sharpenImage(iImage, c):
     oImage = limitRange(oImage, iImage.dtype)
     
     return oImage
+
+## ICP-------------------------------------------------------------------------------------------
+def read_txt_data(data_path):
+    with open(data_path, 'r') as f:
+        read_data = f.read()
+    tocke = np.reshape(np.array(np.matrix(read_data[6:])), [np.int(np.float(read_data[:5])), 3])
+    return tocke
+
+
+def visualize(data, model):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    ax.scatter(data[:, 0], data[:, 1], data[:, 2], c='r')
+    ax.scatter(model[:, 0], model[:, 1], model[:, 2], c='b')
+    plt.show()
+
+
+class IterativeClosestPoint(object):
+    def __init__(self, data, model, toga='true', maxIterations=100, tolerance=0.001):
+        if data.shape[1] != model.shape[1]:
+            raise 'Both point clouds must have the same number of dimensions!'
+
+        self.pts1 = model
+        self.pts2 = data #this one is transformed
+        self.ptsT = 0
+        self.T = 0
+        self.R = 0
+        self.mean_error = 0
+        self.toga = toga
+        self.iteration = 0
+        self.maxIterations = maxIterations
+        self.tolerance = tolerance
+
+    def register(self):
+
+        if self.toga == 'true':
+            self.icp(self.pts1, self.pts2)
+            # icp da ven transformacijsko matriko za poravnavo prvega parametra!
+            self.ptTransform3d(self.pts2)
+        return self.ptsT, self.T, self.R, self.mean_error
+
+
+    def ptTransform3d(self, pts):
+        x = np.asarray(pts[:, 0], dtype=np.float)
+        y = np.asarray(pts[:, 1], dtype=np.float)
+        z = np.asarray(pts[:, 2], dtype=np.float)
+        T = np.asarray(self.T, dtype=np.float)
+
+        r = np.vstack([x.flatten(), y.flatten(), z.flatten(), np.ones([x.size])])
+
+        rT = np.dot(T, r)
+
+        xT = rT[0] / rT[3]
+        yT = rT[1] / rT[3]
+        zT = rT[2] / rT[3]
+
+        xT.shape = x.shape
+        yT.shape = y.shape
+        zT.shape = z.shape
+
+        self.ptsT = np.vstack((xT, yT, zT)).T
+
+    def icp(self, B, A):
+
+
+        assert A.shape == B.shape
+
+        # get number of dimensions
+        m = A.shape[1]
+
+        # make points homogeneous, copy them to maintain the originals
+        src = np.ones((m + 1, A.shape[0]))
+        dst = np.ones((m + 1, B.shape[0]))
+        src[:m, :] = np.copy(A.T)
+        dst[:m, :] = np.copy(B.T)
+
+        prev_error = 0
+
+        for i in range(self.maxIterations):
+            # find the nearest neighbors between the current source and destination points
+            distances, indices = self.nearest_neighbor(src[:m, :].T, dst[:m, :].T)
+
+            # compute the transformation between the current source and nearest destination points
+            self.T, _, _ = self.best_fit_transform(src[:m, :].T, dst[:m, indices].T)
+
+            # update the current source
+            src = np.dot(self.T, src)
+
+            # check error
+            self.mean_error = np.mean(distances)
+            if np.abs(prev_error - self.mean_error) < self.tolerance:
+                break
+            prev_error = self.mean_error
+
+        # calculate final transformation and rotational matrix
+        self.T, self.R, _ = self.best_fit_transform(A, src[:m, :].T)
+
+    def nearest_neighbor(self, src, dst):
+        '''
+        Find the nearest (Euclidean) neighbor in dst for each point in src
+        Input:
+            src: Nxm array of points
+            dst: Nxm array of points
+        Output:
+            distances: Euclidean distances of the nearest neighbor
+            indices: dst indices of the nearest neighbor
+        '''
+
+        assert src.shape == dst.shape
+
+        neigh = NearestNeighbors(n_neighbors=1)
+        neigh.fit(dst)
+        distances, indices = neigh.kneighbors(src, return_distance=True)
+        return distances.ravel(), indices.ravel()
+
+    def best_fit_transform(self, A, B):
+        '''
+        Calculates the least-squares best-fit transform that maps corresponding points A to B in m spatial dimensions
+        Input:
+          A: Nxm numpy array of corresponding points
+          B: Nxm numpy array of corresponding points
+        Returns:
+          T: (m+1)x(m+1) homogeneous transformation matrix that maps A on to B
+          R: mxm rotation matrix
+          t: mx1 translation vector
+        '''
+
+        assert A.shape == B.shape
+
+        # get number of dimensions
+        m = A.shape[1]
+
+        # translate points to their centroids
+        centroid_A = np.mean(A, axis=0)
+        centroid_B = np.mean(B, axis=0)
+        AA = A - centroid_A
+        BB = B - centroid_B
+
+        # rotation matrix
+        H = np.dot(AA.T, BB)
+        U, S, Vt = np.linalg.svd(H)
+        R = np.dot(Vt.T, U.T)
+
+        # special reflection case
+        if np.linalg.det(R) < 0:
+            Vt[m - 1, :] *= -1
+            R = np.dot(Vt.T, U.T)
+
+        # translation
+        t = centroid_B.T - np.dot(R, centroid_A.T)
+
+        # homogeneous transformation
+        T = np.identity(m + 1)
+        T[:m, :m] = R
+        T[:m, m] = t
+        
+        return T, R, t
+
+
+def transAffine3D(iScale = (1,1,1), iTrans = (0,0,0), iRot = (0,0,0), iShear = (0,0,0,0,0,0)):
+    iRot0 = iRot[0]*np.pi/180
+    iRot1 = iRot[1]*np.pi/180
+    iRot2 = iRot[2]*np.pi/180
+    
+    oMatScale = np.array( ((iScale[0],0,0, 0),(0, iScale[1],0, 0), (0,0,iScale[2], 0), (0,0,0,1) ))   
+    oMatTrans = np.array(((1,0,0,iTrans[0]), (0,1,0,iTrans[1]), (0,0,1,iTrans[2]), (0,0,0,1)))
+    
+    Rz = np.array(((1,0,0,0), (0,np.cos(iRot0),-np.sin(iRot0),0), \
+                   (0,np.sin(iRot0),np.cos(iRot0),0) , (0,0,0,1)))
+    Ry = np.array(((np.cos(iRot1),0,np.sin(iRot1),0), (0,1,0,0), \
+                   (-np.sin(iRot1),0,np.cos(iRot1),0) , (0,0,0,1)))
+    Rx = np.array(((np.cos(iRot2),-np.sin(iRot2),0,0), (np.sin(iRot2),np.cos(iRot2),0,0),\
+                   (0,0,1,0) , (0,0,0,1)))
+    
+    oMatRot = np.dot(Rz, np.dot(Ry, Rx))
+        
+    oMatShear = np.array(((1,iShear[0],iShear[1],0), (iShear[2],1,iShear[5],0),\
+                          (iShear[3],iShear[4],1,0), (0,0,0,1)))
+    
+    oMat3D = np.dot(oMatTrans,np.dot(oMatShear, np.dot(oMatRot, oMatScale))) #matricno mnozimo
+    
+    return oMat3D
+
+
+def transform_data(model, data, search_step):
+    mean_err_min = sys.maxsize
+    for steps in range(0,-360,-search_step):
+        Mat_rot = transAffine3D(iRot = (0,0,steps))
+        data_out = np.dot(data, Mat_rot.transpose())
+
+        data_out = data_out[:,0:3]
+        model_out = model[:,0:3]
+
+        icp = IterativeClosestPoint(data=data_out, model=model_out)
+        register_points_icp, _, R_icp, mean_err = icp.register()
+        z = np.arctan2(R_icp[1,0], R_icp[0,0])
+        angleZ = np.degrees(z)
+        # x = np.arctan2(R_icp[2,1], R_icp[2,2])
+        # x_angle = np.degrees(x)
+        # y = np.arctan2(-R_icp[2,0], np.sqrt(R_icp[2,1]**2 + R_icp[2,2]**2))
+        # y_angle = np.degrees(y)
+        # print(x_angle, y_angle, z_angle)
+
+        if mean_err_min > mean_err:
+            register_points_icp_best = register_points_icp
+            mean_err_best = mean_err
+            angleZ_best = angleZ + steps
+            mean_err_min = mean_err
+
+    return register_points_icp_best, np.abs(angleZ_best)
