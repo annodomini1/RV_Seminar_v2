@@ -8,7 +8,20 @@
 
 % *** GRAPHICS RELATED PACKAGES ***
 \ifCLASSINFOpdf
-   \usepackage[pdftex]{graphicx}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsfonts}           %doda zbirko matematičnih znakov
+\usepackage{graphicx}           %prikz slik  
+\usepackage{longtable}          %paket za tabele, ki se raztezajo čez več strani
+\usepackage{float}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{media9}
+\usepackage{enumerate}
+\usepackage[official]{eurosym}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 \else % or other class option (dvipsone, dvipdf, if not using dvips).
    \usepackage[dvips]{graphicx}
 \fi
@@ -47,33 +60,93 @@ E-pošta: janez.puhan@fe.uni-lj.si}
 \maketitle
 
 
-\IEEEpeerreviewmaketitle
 
-% Naslov in kratek povzetek v angleščini
-\english{Transistor level optimisation of digital cells}
-{Integrated circuit manufacturers provide libraries of pre-designed digital cells for digital circuit design. The transistor level implementation of the cells is not considered during the design procedure. The cells, such as buffers, logic gates, adders, flip-flops, etc. are used without modifications wherever needed. For that reason the cells are not fine tuned to their unique surrounding conditions in the circuit. This leaves space for cell optimisation to be used as a tool for achieving arbitrary customisation. This paper describes a case study of transistor level digital cell optimisation. Since the landscape of the cost function used in the process of optimisation proved to be too noisy, the optimisation runs were performed using a robust global optimisation method. The results show that a substantial improvement of cell properties with respect to the manufacturer-supplied pre-designed cells can be obtained.}
 
 \section{Uvod}
 
-V nalogi je obravnavan postopek 3D rekonstukcije objektov iz večih zajetih slik. Za rekonstrukcijo je uporabljena DLT (angl. Direct linear transform) metoda. Temelji na rekonstrukciji 3D oblike iz slik, ki so bile zajete pri znanih kotih zasuka objekta. Pri postopku rekonstrukcije ima zelo veliko vlogo sistem s katerim zajemamo sliko. Bolje kot je zastavljen, bolj konstrastne slike dobimo. Dobro zajete slike nam olajšajo delo pri kasnejši obdelavi. V nalogi so bile slike zajete s pomočjo Raspberry pi-ja in pripadajoče kamere. 
-Sistem s katerim smo izvajali rekonstrukcijo je prikazan na sliki X. Objekt, ki ga želimo skonstruirati postavimo na vrtljivo pozicionirno mizo. Iz zgornje strani svetimo s homogeno, difuzno osvetlitvijo. Objekta direktno ne osvetljujemo, saj je namen osvetlitve predvsem osvetlitev ozadja z enakomerno intenziteto. Za ta namen je med objekt in svetilko postavljena svetlobna ovira. Z osvetljevanjem želimo doseči čimvečjo razliko v intenziteti med zaznavanim objektom in ozadjem.
-Slike smo zajemali z RP kamero v osi na objekt in osvetljeno ozadje. Pred kamero dodamo še filter, da prefiltriramo okoliško svetlobo?. Ko je objekt pozicioniran na predvideno mesto lahko pričnemo z zajemom. Objekt obračamo po začrtanih korakih in po vsakem koraku posnamemo sliko. To naredimo za celoten krog. Tako posnete slike ob znanih kotih zasuka lahko uporabimo za 3d rekonstrukcijo. Slike se sproti iz RP-ja prenašajo na računalnik. Vse procese, tako zajem kot pogon pozicionirne mize krmilimo s pomočjo programa na računalniku.
+V nalogi je obravnavan postopek 3D rekonstukcije objektov na podlagi večih zajetih slik. Za rekonstrukcijo je uporabljena DLT (angl. \textit{Direct linear transform}) metoda. Temelji na rekonstrukciji 3D oblika iz slik, ki so zajete pri znanih kotih zasuka objekta. Pri postopku rekonstrukcije ima zelo veliko vlogo sistem s katerim zajemamo sliko. Bolje kot je zastavljen, bolj konstrastne slike dobimo. Dobro zajete slike nam olajšajo delo pri kasnejši obdelavi.
+
 
 
 \section{Teoretično ozadje}
 kalibracija in fbp algoritem (pseudo ali flowchart), poravnava
 
-\section{Sistem}
-- komponente, blokovna, sike realnega
+\section{Zajem slik}
+Sistem s katerim smo izvajali rekonstrukcijo je blokovno prikazan na sliki ~\ref{fig:blokovna}. Objekt, ki ga želimo skonstruirati postavimo na vrtljivo pozicionirno mizo. Iz zgornje strani navzdol svetimo s homogeno, difuzno osvetlitvijo. Objekta direktno ne osvetljujemo, saj je namen osvetlitve predvsem osvetlitev ozadja z enakomerno intenziteto. Cilj je doseči čimvečjo razliko v intenziteti med opazovanim objektom in zaslonom. Za ta namen je med objekt in svetilko postavljena svetlobna ovira. Slike smo zajemali z Raspberry Pi kamero v osi na objekt in na osvetljeno ozadje. Pred kamero je dodan filter za namen filtriranja okoliške svetlobe.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=8.2cm]{fig/blokovna_sistem}}
+	\caption{Semioperacijska shema sistema.}
+	\label{fig:blokovna}
+\end{figure}
+%
+ Celoten proces zajemanja krmilnimo z računalnikom. Ta je žično povezan na krmilnik s katerim upravljamo rotirajočo pozicionirno mizo. Prav tako je računalnik brezžično povezan na Raspberry Pi. Ta zajete slike pošilja na računalnik. Objekt rekonstruiramo tako, da ga postavimo na predvideno mesto. Nato lahko pričnemo z zajemom slik. Najprej inicializiramo kamero na začetne vrednosti. Nastavimo ISO na 200, svetlost na 45 in resolucijo na 900x1000.  Objekt obračamo po začrtanih zasukih. Po vsakem izvedenem zasuku posnamemo eno sliko, ki se nato brezžično prenese iz Raspberry Pi-ja na računalnik. Postopek ponavljamo dokler objekta ne poslikamo v rangu celotnega kroga. Zajete slike ob znanih kotih zasuka se kasneje uporabijo za 3d rekonstrukcijo. V tabeli ~\ref{tab:komponente} so zapisane vse glavne komponente, ki so zajete v postavljenem sistemu. Manjše komponente kot so vijaki in nosilci v tabeli niso zajeti.
+
+\begin{center}
+	\centering
+	\captionsetup{singlelinecheck = false, justification=justified}
+	\captionof{table}{Komponente sistema.} 
+	\label{tab:komponente} 
+\begin{tabular}{|c|c|}
+	\hline
+	\textbf{Komponenta} & \textbf{Podrobnosti}                            \\ \hline
+	Raspberry Pi        & Raspberry Pi 3 Model B                          \\ \hline
+	Svetilka            & Halogenska svetilka (12V)            \\ \hline
+	Zaslon              & Bela ravna plošča                               \\ \hline
+	Krmilnik            & Fischertechnik stage control                \\ \hline
+	Kamera              & RP Cam V2-8 MP,1080p \\ \hline
+	Svetlobni filter    & Ozkopasovni filter         \\ \hline
+	Svetlobna ovira     & Kartonasta zavesa                \\ \hline
+		Pozicionirna miza   & Fischertechnik rotary stage                     \\ \hline
+\end{tabular}
+\end{center}
+Primer zajete slike obravnavanega objekta je prikazan na sliki ~\ref{fig:zajeta_slika}. S slike lahko vidimo dober kontrast objekta in precejšnjo razliko v barvi in svetlosti objekta proti ozadju. 
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=5.2cm]{fig/zajeta_slika}}
+	\caption{Zajeta slika.}
+	\label{fig:zajeta_slika}
+\end{figure}
 
 \section{Rezultati}
--	Primerjaj slab in dober kontrast slike (primer slusalk na 30 slikah)
--	Kaksna poravnava, dodaj funkcijo napak (grafično)
--	Ali res boljša z 90 proti 30 slikami (drevešček)
--  mesh v blenderju in 3d print (reverse engineering)
+
+
+
+\subsection{Vpliv kompleksnosti in kontrasta}
 -  primerjava kompleksnosti modela
+-  Primerjaj slab in dober kontrast slike (primer slusalk na 30 slikah)
+
+\subsection{Število zajetih slik}
+-	Ali res boljša z 90 proti 30 slikami (drevešček)
 
 
+\subsection{Poravnava oblakov točk}
+Za dodaten eksperiment smo izvedli medsebojno poravnavo oblakov točk. Referenčni oblak točk smo zajeli z 90 slikami in si zapolnili referenčno lego objekta na pozicionirni mizi. Nato smo izvedli še šest zajemov po 30 slik. Ob vsakem zajemu smo skeniran objekt zasukali za predpisan kot glede na referenčno lego. Tako smo zajeli oblake točk zasukane za 45, 90, 135, 18, 225 in 315 stopinj. Na sliki sta zaradi preglednosti prikazana le referenčni in zasukan oblak. Na levi strani sta oblaka prikazana pred poravnavo in na desni po poravnavi. 
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=8cm]{fig/poravnava}}
+	\caption{a) neporavnana, b) poravnana.}
+	\label{fig:poravnava}
+\end{figure}
+
+Po vsaki izvedeni poravnavi smo iz transformacijske matrike izsluščili kot..
+
+ Na sliki ~\ref{fig:poravnava_graf} so z rdečo prikazani referenčni koti, z modro pa dejanski koti, ki jih dobimo s pomočjo poravnave. 
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=8cm]{fig/graf_poravnave}}
+	\caption{Razlika med referenčnimi in dejanskimi koti.}
+	\label{fig:poravnava_graf}
+\end{figure}
+
+\subsection{Vzvratno inženirstvo}
+-  mesh v blenderju in 3d print (reverse engineering)
+
+
+
+
+
+\newpage
 Pri načrtovanju digitalnega vezja načrtovalci uporabljajo osnovne gradnike ali bloke \cite{kaeslin} kot so medpomnilniki, logična vrata, seštevalniki, zatiči, flip-flopi itd. Knjižnico z digitalnimi gradniki za vsak proces izdelave integriranih vezij priskrbi izdelovalec integriranih vezij. Navadno je podanih več različic posameznega gradnika, skupaj z opisom karakteristik posamezne različice. Med postopkom načrtovanja digitalnega integriranega vezja načrtovalec simulacij \cite{hspice, kunderth, virtuoso, tuma} na tranzistorskem nivoju ne izvaja. Za izračun odziva vezja se uporabljajo opisi gradnikov na višjem nivoju \cite{thomas, pedroni}.
 
 Posamezne različice nekega gradnika imajo v večini primerov enako topologijo. Razlikujejo se le v dimenzijah tranzistorjev, navadno v širinah in dolžinah kanalov. So rezultat prilagoditve gradnika na različne pogoje delovanja. V članku je opisana optimizacija gradnika iz knjižnice izdelovalca integriranih vezij. Zanima nas, ali je možno s pomočjo optimizacijskega postopka iz standardnega gradnika iztisniti še boljše lastnosti. S tem bi dobili tudi odgovor na vprašanje, ali je optimmizacija gradnikov na tranzistorskem nivoju smiselna, oziroma ali bi kazalo v prihodnosti z avtomatizacijo optimizacijskega postopka gradnikov na tranzistorskem nivoju generirati poljubne gradnike prilagojene na točno določene razmere v vezju.
