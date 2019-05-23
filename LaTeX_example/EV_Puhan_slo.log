@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.30)  23 MAY 2019 17:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.30)  23 MAY 2019 20:19
 entering extended mode
 **./EV_Puhan_slo.tex
 (EV_Puhan_slo.tex
@@ -842,11 +842,11 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 60.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 65.
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 69.
 <fig/FBPderi.jpg, id=1, 645.91313pt x 638.385pt>
 File: fig/FBPderi.jpg Graphic file (type jpg)
 <use fig/FBPderi.jpg>
-Package pdftex.def Info: fig/FBPderi.jpg  used on input line 110.
+Package pdftex.def Info: fig/FBPderi.jpg  used on input line 114.
 (pdftex.def)             Requested size: 128.0374pt x 126.54478pt.
  [1{C:/Users/Martin/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
@@ -855,50 +855,50 @@ Package pdftex.def Info: fig/FBPderi.jpg  used on input line 110.
 <fig/FBPflow.jpg, id=18, 576.65437pt x 786.68906pt>
 File: fig/FBPflow.jpg Graphic file (type jpg)
 <use fig/FBPflow.jpg>
-Package pdftex.def Info: fig/FBPflow.jpg  used on input line 133.
+Package pdftex.def Info: fig/FBPflow.jpg  used on input line 137.
 (pdftex.def)             Requested size: 142.26378pt x 194.07893pt.
 <fig/alg_poravnava.png, id=19, 336.50719pt x 508.14844pt>
 File: fig/alg_poravnava.png Graphic file (type png)
 <use fig/alg_poravnava.png>
-Package pdftex.def Info: fig/alg_poravnava.png  used on input line 143.
+Package pdftex.def Info: fig/alg_poravnava.png  used on input line 147.
 (pdftex.def)             Requested size: 128.0374pt x 193.34653pt.
 <fig/blokovna_sistem.png, id=21, 683.55376pt x 535.2497pt>
 File: fig/blokovna_sistem.png Graphic file (type png)
 <use fig/blokovna_sistem.png>
-Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 152.
+Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 156.
 (pdftex.def)             Requested size: 233.3125pt x 182.69304pt.
  [2 <./fig/FBPflow.jpg> <./fig/alg_poravnava.png> <./fig/blokovna_sistem.png>]
 <fig/zajeta_slika.jpg, id=29, 903.375pt x 1003.75pt>
 File: fig/zajeta_slika.jpg Graphic file (type jpg)
 <use fig/zajeta_slika.jpg>
-Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 180.
+Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 184.
 (pdftex.def)             Requested size: 119.50148pt x 132.77415pt.
 <fig/slika_90_30.png, id=30, 722.7pt x 301.125pt>
 File: fig/slika_90_30.png Graphic file (type png)
 <use fig/slika_90_30.png>
-Package pdftex.def Info: fig/slika_90_30.png  used on input line 198.
+Package pdftex.def Info: fig/slika_90_30.png  used on input line 202.
 (pdftex.def)             Requested size: 227.62204pt x 94.84108pt.
 <fig/poravnava.png, id=31, 469.755pt x 201.00093pt>
 File: fig/poravnava.png Graphic file (type png)
 <use fig/poravnava.png>
-Package pdftex.def Info: fig/poravnava.png  used on input line 208.
+Package pdftex.def Info: fig/poravnava.png  used on input line 212.
 (pdftex.def)             Requested size: 227.62204pt x 97.39638pt.
 <fig/graf_poravnave.png, id=32, 432.11438pt x 322.20375pt>
 File: fig/graf_poravnave.png Graphic file (type png)
 <use fig/graf_poravnave.png>
-Package pdftex.def Info: fig/graf_poravnave.png  used on input line 216.
+Package pdftex.def Info: fig/graf_poravnave.png  used on input line 220.
 (pdftex.def)             Requested size: 227.62204pt x 169.72488pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3 <./fig/zajeta_slika.jpg> <./fig/slika_90_30.png> <./fig/poravnava.png>]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 236.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 240.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ts1ptm.fd"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 250--251
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 \OT1/ptm/m/it/8 De-sign Com-pi-ler\TS1/ptm/m/it/8 —\OT1/ptm/m/it/8 Physical Com
 -pi-ler\TS1/ptm/m/it/8 —\OT1/ptm/m/it/8 and PrimeTime$[]$\OT1/ptm/m/n/8 ,
  []
