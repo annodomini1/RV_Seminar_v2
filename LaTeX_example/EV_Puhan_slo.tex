@@ -191,8 +191,23 @@ Primer zajete slike obravnavanega objekta z opisanim sistemom je prikazan na sli
 
 
 \subsection{Vpliv kontrasta}
--  primerjava kompleksnosti modela
--  Primerjaj slab in dober kontrast slike (primer slusalk na 30 slikah)
+Testirali smo kako svetlobna pregrada vpliva na rekonstrukcijo oblaka točk. Za ta namen smo vzeli enostaven objekt s stališča rekonstrukcije. Ta je prikazan na sliki ~\ref{fig:slusalkEE}. Na levi strani je prikazana slika objekta kjer svetlobne ovire nismo uporabili. Razvidnno je, da se od objekta svetloba reflektivno odbiva v kamero. Kamera slednje zazna kot svetlo intenziteto. Deli objekta, ki so tako osvetljeni se po svetlosti veliko ne razlikujejo od ozadja, na nekaterih delih pa so celo zaznani, kot svetlejši. Na desni strani je prikazana slika objekta, kjer svetlobno oviro uporabimo. Objekt je v tem primeru bistveno temnejši od ozadja.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=6.2cm]{fig/slusalke_1}}
+	\caption{Objekt: a) brez pregrade, b) s pregrado.}
+	\label{fig:slusalkEE}
+\end{figure}
+
+Na sliki ~\ref{fig:slusalke} sta prikazana rezultata rekonstrukcij brez in z uporabo svetlobne ovire. Opazimo lahko, da je v primeru uporabljene pregrade objekt bistveno lepše rekonstruiran. V primeru, ko zavese nismo uporabili nam odboji povzročajo napačno reprezentacijo objekta.
+
+
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=6.2cm]{fig/slusalke}}
+	\caption{Rekonstrukcija: a) brez pregrade, b) s pregrado.}
+	\label{fig:slusalke}
+\end{figure}
 
 
 \subsection{Število zajetih slik}
