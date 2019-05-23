@@ -70,8 +70,71 @@ V nalogi je obravnavan postopek 3D rekonstukcije objektov na podlagi večih zaje
 
 \section{Teoretično ozadje}
 
-\subsection{Kalibracija kamere}
-\subsection{FBP algoritem}
+\subsection{Kalibracija}
+
+Pred začetkom izvedbe rekonstrukcije je potrebna geometrijska kalibracija sistema. Namen kalibracije je pridobitev parametrov toge preslikave, ki jih bomo potrebovali kasneje v algoritmu 3D rekonstrukcije s filtrirano povratno projekcijo. Cilj je projekcija iz slikovnega v metrični koordinatni sistem.
+
+Referenčne točke kalibracijskega objekta (3D) najprej togo premaknemo na mesto rotirajoče mize. Nato sledi DLT (angl. \textit{Direct Linear Transformation}) kalibracija med 3D točkami referenčnega kalibra $T_{ref},_i = (X_i, Y_i, Z_i)$ ter 2D naborom točk kalibra iz slikovnega koordinatnega sistema $t_{slik},_i = (x_i, y_i)$. Pri tem je število točk kalibracijskega objekta $i = 8$. Pri DLT kalibraciji z razcepom na singularne vrednosti rešujemo sledeči sistem:
+
+
+\begin{equation}
+\setcounter{MaxMatrixCols}{12}
+a = 
+\begin{bsmallmatrix}
+X_i & Y_i & Z_i & 0 & 0 & 0 & -x_i X_i & -x_i Y_i & -x_i Z_i & 1 & 0 & -x_i \\ 
+0 & 0 & 0 & X_i & Y_i & Z_i & -y_i X_i & -y_i Y_i & -y_i Z_i & 0 & 1 & -y_i \\
+\end{bsmallmatrix}
+\end{equation}
+
+\begin{equation}
+\setcounter{MaxMatrixCols}{12}
+\textbf{p} =
+\begin{bsmallmatrix}
+r_{11} & r_{12} & r_{13} & r_{21} & r_{22} & r_{23} & r_{31} & r_{23} & r_{33} & t_x & t_y & t_z
+\end{bsmallmatrix}
+\end{equation}
+
+\begin{equation}
+a\textbf{p}^T=0
+\end{equation}
+
+Rešitev sistema predstavlja 9 parametrov toge preslikave, ki predstavljajo rotacijo $r_{ij}$ ter translacijo $t_k$.
+
+\subsection{Filtrirana povratna projekcija}
+
+Jedro naloge predstavlja postopek FBP (angl. \textit{Filtered Backprojection}), ki je eden od temelnjih načinov rekonstrukcije pri slikanju z računalniško tomografijo na področju zdravstva.
+
+Idejo koncepta filtrirane povratne projekcije je najenostavneje predstaviti na 2D primeru, kjer 2D merjencu $f(x,y)$ za več kotov $\theta$ zajamemo 1D prečne projekcije $p_{\theta}(r)$.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=4.5cm]{fig/FBPderi}}
+	\caption{Filtrirana povratna projekcija.}
+	\label{fig:fbp_deri}
+\end{figure}
+
+Zajete projekcije so nato pretvorjene v frekvenčno domeno s pomočjo Fourier-ove transformacije $P_{\theta}(\omega)$ za vsak kot. Tu nato sledi filtriranje projekcij z visoko-prepustnim filtrom s frekvenčnim odzivom $|\omega|$ tako, da dobimo $g_{\theta}(r) = \int  P_{\theta}(\omega)|\omega|e^{i 2\pi\omega r} d\omega$. S filtriranjem se želimo znebiti visokih frekvenc v projekcijah in posledično pridobiti kvalitetnejšo rekonstrukcijo. Po filtriranju nato sledi še rekonstrukcija v $f'(x,y)$ in sicer tako, da filtrirane inverze Fourier-ove transformacije seštejemo.
+
+\begin{equation}
+f'(x,y) = \int g_{\theta}(r) (x \cos\theta + y \sin \theta)d\theta
+\end{equation}
+
+Ali v diskretni obliki, kjer je $\Delta\theta$ korak diskretizacije:
+\begin{equation}
+f'(x,y) = \frac{1}{2\pi} \sum\limits_{i=0}^{N-1} \Delta\theta_i g_{\theta_i}(x \cos\theta_i + \sin\theta_i)
+\end{equation}
+
+Za potrebe naloge je postopek razširjen v tretjo dimenzijo, implementirani algoritem pa je predstavljen v spodnejm podpoglavju.
+
+\subsubsection{FBP algoritem}
+
+Na spodnji sliki je prikazan diagram poteka uporabljenjega FBP algoritma.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=5cm]{fig/FBPflow}}
+	\caption{Diagram poteka FBP algoritma.}
+	\label{fig:fbp_flow}
+\end{figure}
+
 \subsection{Poravnava oblakov točk}
 %
 Potek algoritma poravnave točk je prikazan na sliki ~\ref{fig:alg_poravnava}. Poravnavno izvajamo med dvema oblakoma točk tako, da enega prilagajamo na drugega. Na začetku oba oblaka točk postavimo v koordinatno izhodišče. Nato izvajamo optimizacijo prileganja na različih rotacijah prilagajočega oblaka. Slednje je izvedeno tako, da prilagajoč oblak rotiramo po 20 stopinj in v vsaki legi izvajamo optimizacijo. To ponavljamo za 360 stopinj. Na koncu med vsemi izberemo poravnano lego, ki nam zagotavlja najmanjšo povprečno napako. 

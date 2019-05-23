@@ -8,7 +8,7 @@ import matplotlib.cm as cm
 import PIL.Image as im
 from os.path import join
 import scipy.ndimage as ni
-import cv2 as cv
+#import cv2 as cv
 from sklearn.neighbors import NearestNeighbors
 import sys
 
@@ -534,7 +534,7 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
 def plot_point_cloud(X, Y, Z):
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    ax.set_aspect('equal')
+    #ax.set_aspect('equal')
 
     scat = ax.scatter(X, Y, Z)
 

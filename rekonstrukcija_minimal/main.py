@@ -4,13 +4,14 @@ import matplotlib.cm as cm
 import PIL.Image as im
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
-import cv2 as cv
+#import cv2 as cv
 from os.path import join
 import reconlib as rl
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
-pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
+# pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
+pth = 'C:/Users/Martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
 
 calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
 calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra.npy')
@@ -97,7 +98,7 @@ slike, koti = rl.load_images(acquisition_data_pth, proc=rl.rgb2gray)
 
 # FBP = Filtered BackProjection
 vol = rl.fbp(slike[::1], koti[::1], Tproj,
-              filter_type='hann', sampling_mm=3,
+              filter_type='ram-lak', sampling_mm=3,
               out_fname=out_volume_fname, cut_off=0.75)
 
 pointCoorX, pointCoorY, pointCoorZ = rl.get_point_cloud(vol, 0.5, 1, 0.1, 0.9, 50)
