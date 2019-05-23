@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.3.11)  22 MAY 2019 19:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.3.11)  23 MAY 2019 12:08
 entering extended mode
 **./EV_Puhan_slo.tex
 (EV_Puhan_slo.tex
@@ -869,200 +869,77 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 65.
-<fig/blokovna_sistem.png, id=1, 683.55376pt x 535.2497pt>
+<fig/alg_poravnava.png, id=1, 336.50719pt x 508.14844pt>
+File: fig/alg_poravnava.png Graphic file (type png)
+<use fig/alg_poravnava.png>
+Package pdftex.def Info: fig/alg_poravnava.png  used on input line 80.
+(pdftex.def)             Requested size: 128.0374pt x 193.34653pt.
+<fig/blokovna_sistem.png, id=3, 683.55376pt x 535.2497pt>
 File: fig/blokovna_sistem.png Graphic file (type png)
 <use fig/blokovna_sistem.png>
-Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 78.
+Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 89.
 (pdftex.def)             Requested size: 233.3125pt x 182.69304pt.
-[1{C:/Users/lapaj/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+Underfull \vbox (badness 5622) has occurred while \output is active []
+
+ [1{C:/Users/lapaj/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
- <./fig/blokovna_sistem.png>]
-<fig/zajeta_slika.jpg, id=11, 903.375pt x 1003.75pt>
+ <./fig/alg_poravnava.png>]
+<fig/zajeta_slika.jpg, id=12, 903.375pt x 1003.75pt>
 File: fig/zajeta_slika.jpg Graphic file (type jpg)
 <use fig/zajeta_slika.jpg>
-Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 106.
-(pdftex.def)             Requested size: 147.95424pt x 164.38632pt.
-<fig/poravnava.png, id=12, 469.755pt x 201.00093pt>
+Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 117.
+(pdftex.def)             Requested size: 119.50148pt x 132.77415pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+<fig/slika_90_30.png, id=13, 722.7pt x 301.125pt>
+File: fig/slika_90_30.png Graphic file (type png)
+<use fig/slika_90_30.png>
+Package pdftex.def Info: fig/slika_90_30.png  used on input line 135.
+(pdftex.def)             Requested size: 227.62204pt x 94.84108pt.
+<fig/poravnava.png, id=14, 469.755pt x 201.00093pt>
 File: fig/poravnava.png Graphic file (type png)
 <use fig/poravnava.png>
-Package pdftex.def Info: fig/poravnava.png  used on input line 127.
+Package pdftex.def Info: fig/poravnava.png  used on input line 145.
 (pdftex.def)             Requested size: 227.62204pt x 97.39638pt.
-<fig/graf_poravnave.png, id=13, 432.11438pt x 322.20375pt>
+ [2 <./fig/blokovna_sistem.png> <./fig/zajeta_slika.jpg> <./fig/slika_90_30.png
+>]
+<fig/graf_poravnave.png, id=20, 432.11438pt x 322.20375pt>
 File: fig/graf_poravnave.png Graphic file (type png)
 <use fig/graf_poravnave.png>
-Package pdftex.def Info: fig/graf_poravnave.png  used on input line 137.
+Package pdftex.def Info: fig/graf_poravnave.png  used on input line 153.
 (pdftex.def)             Requested size: 227.62204pt x 169.72488pt.
- [2 <./fig/zajeta_slika.jpg> <./fig/poravnava.png> <./fig/graf_poravnave.png>]
-Package epstopdf Info: Source file: <fig/synthesis_step_slo.eps>
-(epstopdf)                    date: 2010-12-29 12:35:28
-(epstopdf)                    size: 1103670 bytes
-(epstopdf)             Output file: <fig/synthesis_step_slo-eps-converted-to.pd
-f>
-(epstopdf)                    date: 2019-05-20 12:58:50
-(epstopdf)                    size: 6759 bytes
-(epstopdf)             Command: <epstopdf --outfile=fig/synthesis_step_slo-eps-
-converted-to.pdf fig/synthesis_step_slo.eps>
-(epstopdf)             \includegraphics on input line 159.
-Package epstopdf Info: Output file is already uptodate.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 173.
 
-
-pdfTeX warning: pdflatex.exe (file ./fig/synthesis_step_slo-eps-converted-to.pd
-f): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<fig/synthesis_step_slo-eps-converted-to.pdf, id=19, 213.79875pt x 145.54375pt>
-
-File: fig/synthesis_step_slo-eps-converted-to.pdf Graphic file (type pdf)
-<use fig/synthesis_step_slo-eps-converted-to.pdf>
-Package pdftex.def Info: fig/synthesis_step_slo-eps-converted-to.pdf  used on i
-nput line 159.
-(pdftex.def)             Requested size: 184.9429pt x 125.90025pt.
-
-Underfull \hbox (badness 4108) in paragraph at lines 182--183
-[]\OT1/ptm/m/n/10 Ker mo-rajo biti vse za-ni-mive la-stno-sti $\OT1/cmr/bx/n/10
- x \OT1/cmr/m/n/10 =
- []
-
-
-Underfull \hbox (badness 2809) in paragraph at lines 182--183
-\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 x[]; x[]; []\OT1/cmr/m/n/10 ][]$ []\OT1/ptm/m
-/n/10 cimmanj[]se, po-tre-bu-jemo le en na[]cin
- []
-
-[3 <./fig/synthesis_step_slo-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <fig/d_flip_flop_without_scan_inputs_slo.ep
-s>
-(epstopdf)                    date: 2010-12-31 13:29:40
-(epstopdf)                    size: 8039818 bytes
-(epstopdf)             Output file: <fig/d_flip_flop_without_scan_inputs_slo-ep
-s-converted-to.pdf>
-(epstopdf)                    date: 2019-05-20 12:58:51
-(epstopdf)                    size: 13078 bytes
-(epstopdf)             Command: <epstopdf --outfile=fig/d_flip_flop_without_sca
-n_inputs_slo-eps-converted-to.pdf fig/d_flip_flop_without_scan_inputs_slo.eps>
-(epstopdf)             \includegraphics on input line 205.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: pdflatex.exe (file ./fig/d_flip_flop_without_scan_inputs_slo-ep
-s-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most versio
-n <1.5> allowed
-<fig/d_flip_flop_without_scan_inputs_slo-eps-converted-to.pdf, id=37, 413.545pt
- x 557.08125pt>
-File: fig/d_flip_flop_without_scan_inputs_slo-eps-converted-to.pdf Graphic file
- (type pdf)
-<use fig/d_flip_flop_without_scan_inputs_slo-eps-converted-to.pdf>
-Package pdftex.def Info: fig/d_flip_flop_without_scan_inputs_slo-eps-converted-
-to.pdf  used on input line 205.
-(pdftex.def)             Requested size: 284.52756pt x 383.28993pt.
-
-Package caption Warning: \label without proper reference on input line 209.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `d_flip_flop_without_scan_inputs' on page 4 undefined 
-on input line 213.
-
-
-Package caption Warning: \label without proper reference on input line 209.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `d_flip_flop_without_scan_inputs' on page 4 undefined 
-on input line 217.
-
-
-Package caption Warning: \label without proper reference on input line 209.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `d_flip_flop_without_scan_inputs' on page 4 undefined 
-on input line 219.
-
-
-Underfull \hbox (badness 7415) in paragraph at lines 230--231
-\OT1/ptm/m/n/10 wp/$\OMS/cmsy/m/n/10  \OT1/cmr/m/n/10 25 []C$\OT1/ptm/m/n/10 /3
-.6V/220fF/4ns, ws/$\OT1/cmr/m/n/10 105 []C$\OT1/ptm/m/n/10 /3V/10fF/60ps,
- []
-
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 232.
 
 ("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1ptm.fd"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [4]
-Overfull \hbox (7.09622pt too wide) in paragraph at lines 244--270
- [][] 
- []
-
-
-Underfull \vbox (badness 2486) has occurred while \output is active []
-
-Package epstopdf Info: Source file: <fig/cost_profile_slo.eps>
-(epstopdf)                    date: 2011-01-05 10:01:48
-(epstopdf)                    size: 1772516 bytes
-(epstopdf)             Output file: <fig/cost_profile_slo-eps-converted-to.pdf>
-
-(epstopdf)                    date: 2019-05-20 12:58:51
-(epstopdf)                    size: 10979 bytes
-(epstopdf)             Command: <epstopdf --outfile=fig/cost_profile_slo-eps-co
-nverted-to.pdf fig/cost_profile_slo.eps>
-(epstopdf)             \includegraphics on input line 279.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: pdflatex.exe (file ./fig/cost_profile_slo-eps-converted-to.pdf)
-: PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<fig/cost_profile_slo-eps-converted-to.pdf, id=42, 300.12125pt x 167.62625pt>
-File: fig/cost_profile_slo-eps-converted-to.pdf Graphic file (type pdf)
-<use fig/cost_profile_slo-eps-converted-to.pdf>
-Package pdftex.def Info: fig/cost_profile_slo-eps-converted-to.pdf  used on inp
-ut line 279.
-(pdftex.def)             Requested size: 227.62204pt x 127.13637pt.
-[5 <./fig/d_flip_flop_without_scan_inputs_slo-eps-converted-to.pdf>]
-Underfull \hbox (badness 2205) in paragraph at lines 287--288
-\OT1/ptm/m/n/10 stno-sti osnov-nega gra-dnika z upo-rabo op-ti-mi-za-cij-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 309--310
+)
+Underfull \hbox (badness 10000) in paragraph at lines 187--188
 \OT1/ptm/m/it/8 De-sign Com-pi-ler\TS1/ptm/m/it/8 —\OT1/ptm/m/it/8 Physical Com
 -pi-ler\TS1/ptm/m/it/8 —\OT1/ptm/m/it/8 and PrimeTime$[]$\OT1/ptm/m/n/8 ,
  []
 
-[6 <./fig/cost_profile_slo-eps-converted-to.pdf>] [7
-
-] (EV_Puhan_slo.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+[3 <./fig/poravnava.png> <./fig/graf_poravnave.png>] (EV_Puhan_slo.aux) ) 
 Here is how much of TeX's memory you used:
- 17065 strings out of 492946
- 317442 string characters out of 3126266
- 367077 words of memory out of 3000000
- 20758 multiletter control sequences out of 15000+200000
- 592514 words of font info for 135 fonts, out of 3000000 for 9000
+ 17022 strings out of 492946
+ 316528 string characters out of 3126266
+ 358984 words of memory out of 3000000
+ 20736 multiletter control sequences out of 15000+200000
+ 587800 words of font info for 123 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,11n,63p,1166b,394s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc
-}<C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmbx10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmex10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/lapaj/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/lapaj/AppData/Loc
-al/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lapaj
-/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
-/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mr7.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/lapaj/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lapaj/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/lapaj/A
-ppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/lap
-aj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on EV_Puhan_slo.pdf (7 pages, 448699 bytes).
+ 42i,7n,63p,981b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Us
+ers/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Use
+rs/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:
+/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb
+><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8
+a.pfb>
+Output written on EV_Puhan_slo.pdf (3 pages, 612758 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
+ 37 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
