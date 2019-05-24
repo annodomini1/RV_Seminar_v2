@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.3.11)  23 MAY 2019 21:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.6960 64-bit) (preloaded format=pdflatex 2019.3.11)  24 MAY 2019 15:57
 entering extended mode
 **./EV_Puhan_slo.tex
 (EV_Puhan_slo.tex
@@ -799,7 +799,14 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
-) (EV_Puhan_slo.aux)
+) (EV_Puhan_slo.aux
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+)
 \openout1 = `EV_Puhan_slo.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
@@ -816,8 +823,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
 LaTeX Font Info:    ... okay on input line 39.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 39.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 39.
-
-("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
+ ("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 39.
@@ -854,117 +860,114 @@ Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box58
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 60.
-
+LaTeX Font Info:    Try loading font information for U+msa on input line 60.
+ ("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 60.
+ ("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
 Underfull \hbox (badness 10000) in paragraph at lines 60--60
 
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 60.
-("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 60.
-("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 69.
 <fig/FBPderi.jpg, id=1, 645.91313pt x 638.385pt>
 File: fig/FBPderi.jpg Graphic file (type jpg)
 <use fig/FBPderi.jpg>
-Package pdftex.def Info: fig/FBPderi.jpg  used on input line 114.
+Package pdftex.def Info: fig/FBPderi.jpg  used on input line 107.
 (pdftex.def)             Requested size: 128.0374pt x 126.54478pt.
 [1{C:/Users/lapaj/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
  <./fig/FBPderi.jpg>]
-<fig/FBPflow.jpg, id=17, 576.65437pt x 786.68906pt>
+<fig/FBPflow.jpg, id=18, 576.65437pt x 786.68906pt>
 File: fig/FBPflow.jpg Graphic file (type jpg)
 <use fig/FBPflow.jpg>
-Package pdftex.def Info: fig/FBPflow.jpg  used on input line 137.
-(pdftex.def)             Requested size: 142.26378pt x 194.07893pt.
-<fig/alg_poravnava.png, id=18, 336.50719pt x 508.14844pt>
+Package pdftex.def Info: fig/FBPflow.jpg  used on input line 130.
+(pdftex.def)             Requested size: 170.71652pt x 232.89952pt.
+<fig/alg_poravnava.png, id=19, 336.50719pt x 508.14844pt>
 File: fig/alg_poravnava.png Graphic file (type png)
 <use fig/alg_poravnava.png>
-Package pdftex.def Info: fig/alg_poravnava.png  used on input line 147.
+Package pdftex.def Info: fig/alg_poravnava.png  used on input line 140.
 (pdftex.def)             Requested size: 128.0374pt x 193.34653pt.
-<fig/blokovna_sistem.png, id=20, 683.55376pt x 535.2497pt>
+<fig/blokovna_sistem.png, id=21, 683.55376pt x 535.2497pt>
 File: fig/blokovna_sistem.png Graphic file (type png)
 <use fig/blokovna_sistem.png>
-Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 156.
+Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 149.
 (pdftex.def)             Requested size: 233.3125pt x 182.69304pt.
  [2 <./fig/FBPflow.jpg> <./fig/alg_poravnava.png> <./fig/blokovna_sistem.png>]
-<fig/zajeta_slika.jpg, id=27, 903.375pt x 1003.75pt>
+<fig/zajeta_slika.jpg, id=28, 903.375pt x 1003.75pt>
 File: fig/zajeta_slika.jpg Graphic file (type jpg)
 <use fig/zajeta_slika.jpg>
-Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 184.
+Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 177.
 (pdftex.def)             Requested size: 119.50148pt x 132.77415pt.
-<fig/slusalke_1.png, id=28, 665.48625pt x 338.01282pt>
+<fig/slusalke_1.png, id=29, 665.48625pt x 338.01282pt>
 File: fig/slusalke_1.png Graphic file (type png)
 <use fig/slusalke_1.png>
-Package pdftex.def Info: fig/slusalke_1.png  used on input line 197.
+Package pdftex.def Info: fig/slusalke_1.png  used on input line 190.
 (pdftex.def)             Requested size: 176.407pt x 89.59875pt.
-<fig/slusalke.png, id=29, 524.71031pt x 240.9pt>
+<fig/slusalke.png, id=30, 524.71031pt x 240.9pt>
 File: fig/slusalke.png Graphic file (type png)
 <use fig/slusalke.png>
-Package pdftex.def Info: fig/slusalke.png  used on input line 207.
+Package pdftex.def Info: fig/slusalke.png  used on input line 200.
 (pdftex.def)             Requested size: 176.407pt x 80.98962pt.
-<fig/slika_90_30.png, id=30, 722.7pt x 301.125pt>
+<fig/slika_90_30.png, id=31, 756.57657pt x 216.81pt>
 File: fig/slika_90_30.png Graphic file (type png)
 <use fig/slika_90_30.png>
-Package pdftex.def Info: fig/slika_90_30.png  used on input line 217.
-(pdftex.def)             Requested size: 227.62204pt x 94.84108pt.
- [3 <./fig/zajeta_slika.jpg> <./fig/slusalke_1.png> <./fig/slusalke.png> <./fig
-/slika_90_30.png>]
-<fig/poravnava.png, id=37, 469.755pt x 201.00093pt>
+Package pdftex.def Info: fig/slika_90_30.png  used on input line 210.
+(pdftex.def)             Requested size: 227.62204pt x 65.22876pt.
+<fig/poravnava.png, id=32, 469.755pt x 201.00093pt>
 File: fig/poravnava.png Graphic file (type png)
 <use fig/poravnava.png>
-Package pdftex.def Info: fig/poravnava.png  used on input line 227.
+Package pdftex.def Info: fig/poravnava.png  used on input line 220.
 (pdftex.def)             Requested size: 227.62204pt x 97.39638pt.
-<fig/graf_poravnave.png, id=38, 432.11438pt x 322.20375pt>
+ [3 <./fig/zajeta_slika.jpg> <./fig/slusalke_1.png> <./fig/slusalke.png> <./fig
+/slika_90_30.png>]
+<fig/graf_poravnave.png, id=39, 432.11438pt x 322.20375pt>
 File: fig/graf_poravnave.png Graphic file (type png)
 <use fig/graf_poravnave.png>
-Package pdftex.def Info: fig/graf_poravnave.png  used on input line 235.
+Package pdftex.def Info: fig/graf_poravnave.png  used on input line 228.
 (pdftex.def)             Requested size: 227.62204pt x 169.72488pt.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 255.
 
-
-("C:\Users\lapaj\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1ptm.fd"
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 269--270
-\OT1/ptm/m/it/8 De-sign Com-pi-ler\TS1/ptm/m/it/8 —\OT1/ptm/m/it/8 Physical Com
--pi-ler\TS1/ptm/m/it/8 —\OT1/ptm/m/it/8 and PrimeTime$[]$\OT1/ptm/m/n/8 ,
+Underfull \hbox (badness 1983) in paragraph at lines 234--236
+[]\OT1/ptm/m/n/10 Vzvratno in[]zenirstvo je pro-ces, kjer na pod-lagi
  []
 
-[4 <./fig/poravnava.png> <./fig/graf_poravnave.png>] (EV_Puhan_slo.aux) ) 
+[4 <./fig/poravnava.png> <./fig/graf_poravnave.png>] (EV_Puhan_slo.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 17047 strings out of 492946
- 316981 string characters out of 3126266
- 361017 words of memory out of 3000000
- 20757 multiletter control sequences out of 15000+200000
- 587800 words of font info for 123 fonts, out of 3000000 for 9000
+ 17015 strings out of 492946
+ 316531 string characters out of 3126266
+ 361028 words of memory out of 3000000
+ 20732 multiletter control sequences out of 15000+200000
+ 585099 words of font info for 122 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,8n,63p,974b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Us
-ers/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Use
-rs/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex1
-0.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmmi10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmmi5.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lapaj/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lapaj/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lap
-aj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C
-:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy7.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/urw/times/utmb8a.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/urw/times/utmr8a.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on EV_Puhan_slo.pdf (4 pages, 1281055 bytes).
+{C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc
+}<C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmex10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmmi10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/lapaj/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/lapaj/AppData/Loca
+l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lapaj/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/U
+sers/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
+7.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmr8.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmsy10.pfb><C:/Users/lapaj/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lapaj/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/lapaj/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/lapaj/AppData/Local
+/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on EV_Puhan_slo.pdf (4 pages, 1187576 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
+ 86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

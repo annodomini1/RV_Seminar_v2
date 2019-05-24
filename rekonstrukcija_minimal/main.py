@@ -10,14 +10,14 @@ import reconlib as rl
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
-# pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
-pth = 'C:/Users/Martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
+pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
+# pth = 'C:/Users/Martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
 
 calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
 calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra.npy')
 
 #source
-acquisition_data_pth_ref = join(pth, 'acquisitions', '0stopinj')
+# acquisition_data_pth_ref = join(pth, 'acquisitions', '0stopinj')
 acquisition_data_pth = join(pth, 'acquisitions', '135stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '45stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '90stopinj')
@@ -25,11 +25,11 @@ acquisition_data_pth = join(pth, 'acquisitions', '135stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '180stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '225stopinj')
 # acquisition_data_pth = join(pth, 'acquisitions', '315stopinj')
-# acquisition_data_pth = join(pth, 'acquisitions', '0stopinj_ref90')
+acquisition_data_pth_ref = join(pth, 'acquisitions', '0stopinj_ref90')
 # acquisition_data_pth = join(pth, 'acquisitions', 'slusalke90')
 
 #results
-out_volume_fname_ref = join(pth, 'reconstructions', '0stopinj.nrrd')
+# out_volume_fname_ref = join(pth, 'reconstructions', '0stopinj.nrrd')
 out_volume_fname = join(pth, 'reconstructions', '135stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '45stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '90stopinj.nrrd')
@@ -37,7 +37,7 @@ out_volume_fname = join(pth, 'reconstructions', '135stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '180stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '225stopinj.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', '315stopinj.nrrd')
-# out_volume_fname = join(pth, 'reconstructions', '0stopinj_ref90.nrrd')
+out_volume_fname_ref = join(pth, 'reconstructions', '0stopinj_ref90.nrrd')
 # out_volume_fname = join(pth, 'reconstructions', 'slusalke90.nrrd')
 
 slike_ref, koti_ref = rl.load_images(acquisition_data_pth_ref, proc=rl.rgb2gray)

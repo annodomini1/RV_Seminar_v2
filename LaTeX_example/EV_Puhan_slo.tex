@@ -41,20 +41,20 @@
 % naslov prispevka, lahko uporabite en linebreak \\
 \title{Rekonstrukcija objekta in poravnava oblakov točk}
 
-\authors{Martin Knap, Janez Lapajne} % use ^1, ^2 for author(s) from different institutions
+\authors{Martin Knap$^1$, Janez Lapajne$^1$} % use ^1, ^2 for author(s) from different institutions
 
 \address{Univerza v Ljubljani, Fakulteta za elektrotehniko, Tržaška 25, 1000 Ljubljana, Slovenija\\
-E-pošta: janez.puhan@fe.uni-lj.si}
+E-pošta: janez.lapajne@gmail.com, knap.martin@gmail.com}
 
-\abstract{Izdelovalci integriranih vezij za svoje procese podajajo knjižnice osnovnih digitalnih gradnikov, ki se uporabljajo pri načrtovanju digitalnih integriranih vezij. Izvedbe posameznih gradnikov na tranzistorskem nivoju so s tem določene in se med načrtovanjem vezja ne spreminjajo več. Gradniki, kot npr. medpomnilniki, logična vrata, seštevalniki, flip-flopi itd., se uporabljajo brez sprememb, kjerkoli jih načrtovalec potrebuje. Zaradi tega posamezen gradnik ni povsem prilagojen na specifično okolje v vezju, kjer se nahaja. To odpira prostor optimizaciji gradnika točno na zahteve v katerih deluje. članek opisuje primer optimizacije digitalnega gradnika na tranzistorskem nivoju. Zaradi šumnosti kriterijske funkcije je bila uporabljena robustna globalna optimizacijska metoda. Rezultati pokažejo znatno izboljšanje želenih lastnosti glede na splošni gradnik izdelovalca integriranih vezij.}
+\abstract{V nalogi je obravnavan postopek 3D rekonstukcije objektov na podlagi večih zajetih slik. Za rekonstrukcijo je uporabljena FBP (angl. \textit{Filtered back projection }) metoda. Temelji na rekonstrukciji 3D oblika iz slik, ki so zajete pri znanih kotih zasuka objekta. Velik poudarek je namenjen izgradnji in zasnovi sistema, saj je od njegove postavitve odvisna kakovost zajetih slik.  Osredotočamo se predvsem na elemente, ki nam pomagajo pri čimboljši rekonstrukciji objekta v obliki oblaka točk. Prikazana je kalibracija sistema in preslikava slik v metrični koordinatni sistem. Predstavljena je uporabnost rekontrukcije objektov in izvedba vzvratnega inženirstva skeniranega objekta.
+}
 
-\keywords{rekonstrukcija 3d objekta, kalibracija kamere, poravnava oblakov točk}
+\keywords{rekonstrukcija 3d objekta, kalibracija kamere, poravnava oblakov točk, vzvratno inženirstvo}
 
-\received{19. oktober, 2010} % datum sprejema članka, lahko pustite prazno
-\review{4. februar, 2011}    % datum odobritve članka, pustite prazno
+
 
 % Priimki avtorjev in kratek naslov članka za tekočo glavo
-\markboth{Naruto and Sasuke kun}{Optimizacija digitalnih gradnikov na nivoju tranzistorjev}
+\markboth{M. Knap, J. Lapajne}{Rekonstrukcija objekta in poravnava oblakov točk}
 
 % make the title area
 \maketitle
@@ -67,18 +67,13 @@ E-pošta: janez.puhan@fe.uni-lj.si}
 %slika2 -> normalizacija koordinat mreže
 %poprav vrsto filtra
 \section{Uvod}
-
-V nalogi je obravnavan postopek 3D rekonstukcije objektov na podlagi večih zajetih slik. Za rekonstrukcijo je uporabljena FBP (angl. \textit{Filtered back projection }) metoda. Temelji na rekonstrukciji 3D oblika iz slik, ki so zajete pri znanih kotih zasuka objekta. Pri postopku rekonstrukcije ima zelo veliko vlogo sistem s katerim zajemamo slike. Tega je potrebno ustrezno skalibrirati in merjene točke pretvoriti v metrični koordinatni sistem. Bolje kot zastavimo zajem slik, ustreznejši so končni rezultati. Dobro zajete slike nam olajšajo delo pri kasnejši obdelavi.
-
-
+V robotskem vidu in računalniški grafiki je 3d rekonstrukcija proces zajemanja oblike in videza realnega objekta. Proces je lahko dosežen z aktivnimi ali pasivnimi metodami. V nalogi je uporabljena pasivna FBP metoda. Uporaba rekonstrukcije lahko določi profil 3d objekta oziroma koordinate katerikoli točke na tem profilu. Digitalna slika je v našem primeru vir informacij. Za dobro rekonstrukcijo je potrebno upoštevati vizualno dispariteto, osvetlitev, performance kamere in značilnosti scene. Uporabljeno kamero je potrebno ustrezno skalibrirati in merjene točke pretvoriti v metrični koordinatni sistem. Bolje kot je zastavljen zajem slik, ustreznejši so končni rezultati. Dobro zajete slike olajšajo obdelavo. Rekonstrukcija objektov je uporabljena v različnih področjih raziskovanja. Med drugim v medicini, robotiki, računalniških igrah in v vzvratnem inženirstvu. 
 
 \section{Teoretično ozadje}
 
 \subsection{Kalibracija}
 
-Pred začetkom izvedbe rekonstrukcije je potrebna geometrijska kalibracija sistema. Namen kalibracije je pridobitev parametrov toge preslikave, ki jih bomo potrebovali kasneje v algoritmu 3D rekonstrukcije s filtrirano povratno projekcijo. Cilj je projekcija iz slikovnega v metrični koordinatni sistem.
-
-Referenčne točke kalibracijskega objekta (3D) najprej togo premaknemo na mesto rotirajoče mize. Nato sledi DLT (angl. \textit{Direct Linear Transformation}) kalibracija med 3D točkami referenčnega kalibra $T_{ref},_i = (X_i, Y_i, Z_i)$ ter 2D naborom točk kalibra iz slikovnega koordinatnega sistema $t_{slik},_i = (x_i, y_i)$. Pri tem je število točk kalibracijskega objekta $i = 8$. Pri DLT kalibraciji z razcepom na singularne vrednosti rešujemo sledeči sistem:
+Pred začetkom izvedbe rekonstrukcije je potrebna geometrijska kalibracija sistema. Namen kalibracije je pridobitev parametrov toge preslikave, ki jih bomo potrebovali kasneje v algoritmu 3D rekonstrukcije s filtrirano povratno projekcijo. Cilj je projekcija iz slikovnega v metrični koordinatni sistem. Referenčne točke kalibracijskega objekta (3D) najprej togo premaknemo na mesto rotirajoče mize. Nato sledi DLT (angl. \textit{Direct Linear Transformation}) kalibracija med 3D točkami referenčnega kalibra $T_{ref},_i = (X_i, Y_i, Z_i)$ ter 2D naborom točk kalibra iz slikovnega koordinatnega sistema $t_{slik},_i = (x_i, y_i)$. Pri tem je število točk kalibracijskega objekta $i = 8$. Pri DLT kalibraciji z razcepom na singularne vrednosti rešujemo sledeči sistem:
 
 
 \begin{equation}
@@ -106,9 +101,7 @@ Rešitev sistema predstavlja 9 parametrov toge preslikave, ki predstavljajo rota
 
 \subsection{Filtrirana povratna projekcija}
 
-Jedro naloge predstavlja postopek FBP (angl. \textit{Filtered Backprojection}), ki je eden od temelnjih načinov rekonstrukcije pri slikanju z računalniško tomografijo na področju zdravstva.
-
-Idejo koncepta filtrirane povratne projekcije je najenostavneje predstaviti na 2D primeru, kjer 2D merjencu $f(x,y)$ za več kotov $\theta$ zajamemo 1D prečne projekcije $p_{\theta}(r)$.
+Jedro naloge predstavlja postopek FBP (angl. \textit{Filtered Backprojection}), ki je eden od temelnjih načinov rekonstrukcije pri slikanju z računalniško tomografijo na področju zdravstva. Idejo koncepta filtrirane povratne projekcije je najenostavneje predstaviti na 2D primeru, kjer 2D merjencu $f(x,y)$ za več kotov $\theta$ zajamemo 1D prečne projekcije $p_{\theta}(r)$.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=4.5cm]{fig/FBPderi}}
@@ -134,7 +127,7 @@ Za potrebe naloge je postopek razširjen v tretjo dimenzijo, implementirani algo
 Na spodnji sliki je prikazan diagram poteka uporabljenjega FBP algoritma.
 
 \begin{figure}[H]
-	\centerline{\includegraphics[width=5cm]{fig/FBPflow}}
+	\centerline{\includegraphics[width=6cm]{fig/FBPflow}}
 	\caption{Diagram poteka FBP algoritma.}
 	\label{fig:fbp_flow}
 \end{figure}
@@ -191,7 +184,7 @@ Primer zajete slike obravnavanega objekta z opisanim sistemom je prikazan na sli
 
 
 \subsection{Vpliv kontrasta}
-Testirali smo kako svetlobna pregrada vpliva na rekonstrukcijo oblaka točk. Za ta namen smo vzeli enostaven objekt s stališča rekonstrukcije. Ta je prikazan na sliki ~\ref{fig:slusalkEE}. Na levi strani je prikazana slika objekta kjer svetlobne ovire nismo uporabili. Razvidnno je, da se od objekta svetloba reflektivno odbiva v kamero. Kamera slednje zazna kot svetlo intenziteto. Deli objekta, ki so tako osvetljeni se po svetlosti veliko ne razlikujejo od ozadja, na nekaterih delih pa so celo zaznani, kot svetlejši. Na desni strani je prikazana slika objekta, kjer svetlobno oviro uporabimo. Objekt je v tem primeru bistveno temnejši od ozadja.
+Testirali smo kako svetlobna pregrada vpliva na rekonstrukcijo oblaka točk. Za ta namen smo vzeli enostaven objekt s stališča rekonstrukcije. Ta je prikazan na sliki ~\ref{fig:slusalkEE}. Na levi strani je prikazana slika objekta kjer svetlobne ovire nismo uporabili. Razvidnno je, da se od objekta svetloba reflektivno odbiva v kamero. Kamera to zazna kot svetlo intenziteto. Deli objekta, ki so tako osvetljeni se po svetlosti veliko ne razlikujejo od ozadja, na nekaterih delih pa so celo zaznani, kot svetlejši. Na desni strani je prikazana slika objekta, kjer svetlobno oviro uporabimo. Objekt je v tem primeru bistveno temnejši od ozadja.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=6.2cm]{fig/slusalke_1}}
@@ -199,7 +192,7 @@ Testirali smo kako svetlobna pregrada vpliva na rekonstrukcijo oblaka točk. Za 
 	\label{fig:slusalkEE}
 \end{figure}
 
-Na sliki ~\ref{fig:slusalke} sta prikazana rezultata rekonstrukcij brez in z uporabo svetlobne ovire. Opazimo lahko, da je v primeru uporabljene pregrade objekt bistveno lepše rekonstruiran. V primeru, ko zavese nismo uporabili nam odboji povzročajo napačno reprezentacijo objekta.
+Na sliki ~\ref{fig:slusalke} sta prikazana rezultata rekonstrukcij brez in z uporabo svetlobne ovire. Opazimo lahko, da je v primeru uporabljene pregrade objekt bistveno lepše rekonstruiran. V primeru, ko zavese nismo uporabili nam odboji povzročajo napačno reprezentacijo objekta. 
 
 
 
@@ -215,7 +208,7 @@ Dvakrat smo rekonstruirali isti predmet. Enkrat na podlagi 30 slik in drugič na
 %
 \begin{figure}[H]
 	\centerline{\includegraphics[width=8cm]{fig/slika_90_30}}
-	\caption{a) objekt, b) skan - 90 slik, c) skan - 30 slik.}
+	\caption{a) objekt, b) zajetih 90 slik, c) zajetih 30 slik.}
 	\label{fig:slika_90_30}
 \end{figure}
 %
@@ -229,7 +222,7 @@ Za dodaten eksperiment smo izvedli medsebojno poravnavo oblakov točk. Referenč
 	\label{fig:poravnava}
 \end{figure}
 %
-Za vse, pod različnimi koti zajete oblake točk, smo izvedli poravnavo. Nato smo iz pridobljene transformacijske matrike izluščili rotacijo okoli vertikalne osi. Ker smo poznali kote zasuka objekta glede na referenčno lego, smo jih primerjali s temi pridobljenimi iz transformacijske matrike. Na sliki ~\ref{fig:poravnava_graf} so z rdečo barvo prikazani ročno določeni zasuki, z modro pa zasuki pridobljeni iz transformacijske matrike.
+Za vse, pod različnimi koti zajete oblake točk, smo izvedli poravnavo. Nato smo iz pridobljene transformacijske matrike izluščili rotacijo okoli vertikalne osi. Ker smo poznali kote zasuka objekta glede na referenčno lego, smo jih primerjali s temi pridobljenimi iz transformacijske matrike. Na sliki ~\ref{fig:poravnava_graf} so z rdečo barvo prikazani ročno določeni zasuki, z modro pa zasuki pridobljeni iz transformacijske matrike. Vidimo, da dobimo z izračunanimi koti na podlagi transformacijske matrike dokaj zanesljive rezultate. Prileganje testiranih zasukov glede na referenčne je v rangu petih stopinj. Napaka se verjetno pojavi zaradi napak v pozicionirnem sistemu, nenatančne meritve kota glede na referenčno lego in napake v numeričnem izračunu.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=8cm]{fig/graf_poravnave}}
@@ -238,43 +231,28 @@ Za vse, pod različnimi koti zajete oblake točk, smo izvedli poravnavo. Nato sm
 \end{figure}
 
 \subsection{Vzvratno inženirstvo}
--  mesh v blenderju in 3d print (reverse engineering)
-
-
-
-
+Vzvratno inženirstvo je proces, kjer na podlagi fizičnega objekta rekontruriramo njegov model. Model dobimo tako, da oblak točk prilagodimo in pretvorimo v ustrezen format. S pomočjo programa Solidworks smo 
+tako oblak točk pretvorili v stl format. Kot takega ga lahko uvozimo v program za 3d tisk in  rekonstruiramo še v fizični obliki.
 
 
 \section{Zaključek}
-
+Z našo tehniko rekonstruiranja nismo popisali dovolj dobrih delailov, čas rekonstrukcije se povečjuje z velikostjo sempljanja, ugotovili smo, da je sistem zelo pomemben + osvetlitev. Pomembno tud število slik. Poravnava slik, nam je dobro uspela - lahko če ne bi poznali pod kakšnim kotom je poslikal in dobil koliko je zamaknjen glede na referenčno lego.
 
 
 \begin{thebibliography}{10}
-\bibitem{kaeslin} H.~Kaeslin, {\em Digital integrated circuit design: from VLSI architectures to CMOS fabrication}, \hskip 1em plus 0.5em minus 0.4em \relax Cambridge University Press, 2008.
+\bibitem{spic1} Ž. Špiclin, B. Likar, M. Burmen. {\em Predavanje pri predmetu - Biomedicinske slikovne tehnologije: Rekonstrukcija slik}, \hskip 1em plus 0.5em minus 0.4em \relax Univerza v Ljubljani, 2018.
+\bibitem{spic2} Ž. Špiclin. {\em Predavanje pri predmetu - Robotski vid: Prileganje modelov na slike}, \hskip 1em plus 0.5em minus 0.4em \relax Univerza v Ljubljani, 2019.
+\bibitem{vir1} Moons, Theo, Luc Van Gool.  {\em 3D reconstruction from multiple images part 1: Principles}, \hskip 1em plus 0.5em minus 0.4em \relax Foundations and Trends in Computer Graphics and Vision 4.4: 287-404, 2010.
+\bibitem{vir2}Vosselman, George, and Sander Dijkman.   {\em 3D building model reconstruction from point clouds and ground plans}, \hskip 1em plus 0.5em minus 0.4em \relax International archives of photogrammetry remote sensing and spatial information sciences 34.3/W4: 37-44, 2001.
+\bibitem{vir3} Woodham, Robert J.  {\em  Photometric method for determining surface orientation from multiple images}, \hskip 1em plus 0.5em minus 0.4em \relax Optical Engineering. 19 (1): 138–141, 1980.
+\bibitem{vir4}   {\em Raspberry Pi 3, Model B V1.2 Technical Specifications}, \hskip 1em plus 0.5em minus 0.4em \relax RS Components, 20.9.2017.
+\bibitem{}   {\em Fischertechnik Technical Specifications}, \hskip 1em plus 0.5em minus 0.4em \relax fischertechnik GmbH, 2016.
 
-\bibitem{hspice} {\em HSPICE\textsuperscript{\textregistered} simulation and analysis user guide}, \hskip 1em plus 0.5em minus 0.4em \relax Synopsys\textsuperscript{\textregistered}, 2005.
+\bibitem{}   {\em }, \hskip 1em plus 0.5em minus 0.4em \relax , 
+\bibitem{}   {\em }, \hskip 1em plus 0.5em minus 0.4em \relax , 
 
-\bibitem{kunderth} K.S.~Kunderth, {\em The designer's guide to SPICE and Spectre}, \hskip 1em plus 0.5em minus 0.4em \relax Kluwer Academic Publishers, 1995.
 
-\bibitem{virtuoso} {\em Virtuoso\textsuperscript{\textregistered} Spectre\textsuperscript{\textregistered} circuit simulator user guide}, \hskip 1em plus 0.5em minus 0.4em \relax Cadence Design Systems, Inc., 2008.
 
-\bibitem{tuma} T.~Tuma, \'{A}.~B\H{u}rmen, {\em Circuit simulation with SPICE Opus, theory and practice}, \hskip 1em plus 0.5em minus 0.4em \relax Birkh\"{a}user, 2009.
-
-\bibitem{thomas} D.E.~Thomas, P.R.~Moorby, {\em The Verilog hardware description language}, 5\textsuperscript{th}~ed. \hskip 1em plus 0.5em minus 0.4em \relax Kluwer Academic Publishers, 2003.
-
-\bibitem{pedroni} V.A.~Pedroni, {\em Circuit design with VHDL}, \hskip 1em plus 0.5em minus 0.4em \relax Massachusetts Institute of Technology, 2004.
-
-\bibitem{kurup} P.~Kurup, T.~Abbasi, {\em Logic synthesis using Synopsys\textsuperscript{\textregistered}}, 2\textsuperscript{nd}~ed. \hskip 1em plus 0.5em minus 0.4em \relax Kluwer Academic Publishers, 1997.
-
-\bibitem{bhatnagar} H.~Bhatnagar, {\em Advanced ASIC chip synthesis using Synopsys\textsuperscript{\textregistered} Design Compiler\texttrademark Physical Compiler\texttrademark and PrimeTime\textsuperscript{\textregistered}}, 2\textsuperscript{nd}~ed. \hskip 1em plus 0.5em minus 0.4em \relax Kluwer Academic Publishers, 2002.
-
-\bibitem{burmen1} \'{A}.~B\H{u}rmen et al., ``Automated robust design and optimization of integrated circuits by means of penalty functions,'' \hskip 1em plus 0.5em minus 0.4em \relax {\em AE\"{U}, International Journal of Electronics and Communications}, vol. 57, no. 1, pp. 47--56, 2003.
-
-\bibitem{olensek} J.~Olen\v{s}ek, \'{A}.~B\H{u}rmen, J.~Puhan, T.~Tuma, ``DESA: a new hybrid global optimization method and its application to analog integrated circuit sizing,'' \hskip 1em plus 0.5em minus 0.4em \relax {\em Journal of Global Optimization}, vol. 44, no. 1, pp. 1--25, 2008.
-
-\bibitem{hooke} R.~Hooke, T.~Jeeves, ``Direct search solutions of numerical and statistical problems,'' \hskip 1em plus 0.5em minus 0.4em \relax {\em Journal of the Association for Computing Machinery}, vol. 8, no. 2, pp. 212--229, 1961.
-
-\bibitem{burmen2} \'{A}.~B\H{u}rmen, I.~Fajfar, T.~Tuma, ``Combined Simplex-Trust-Region optimization algorithm for automated IC design,'' \hskip 1em plus 0.5em minus 0.4em \relax {\em Proceedings of ECCTD07 European Conference on Circuit Theory and Design}, pp. 543--546, 2007.
 \end{thebibliography}
 
 
