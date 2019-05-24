@@ -76,12 +76,24 @@ V robotskem vidu in računalniški grafiki je 3d rekonstrukcija proces zajemanja
 Pred začetkom izvedbe rekonstrukcije je potrebna geometrijska kalibracija sistema. Namen kalibracije je pridobitev parametrov toge preslikave, ki jih bomo potrebovali kasneje v algoritmu 3D rekonstrukcije s filtrirano povratno projekcijo. Cilj je projekcija iz slikovnega v metrični koordinatni sistem. Referenčne točke kalibracijskega objekta (3D) najprej togo premaknemo na mesto rotirajoče mize. Nato sledi DLT (angl. \textit{Direct Linear Transformation}) kalibracija med 3D točkami referenčnega kalibra $T_{ref},_i = (X_i, Y_i, Z_i)$ ter 2D naborom točk kalibra iz slikovnega koordinatnega sistema $t_{slik},_i = (x_i, y_i)$. Pri tem je število točk kalibracijskega objekta $i = 8$. Pri DLT kalibraciji z razcepom na singularne vrednosti rešujemo sledeči sistem:
 
 
+%\begin{equation}
+%\setcounter{MaxMatrixCols}{12}
+%a = 
+%\begin{bsmallmatrix}
+%X_1 & Y_1 & Z_1 & 0 & 0 & 0 & -x_1 X_1 & -x_1 Y_1 & -x_1 Z_1 & 1 & 0 & -x_1 \\ 
+%0 & 0 & 0 & X_1 & Y_1 & Z_1 & -y_1 X_1 & -y_1 Y_1 & -y_1 Z_1 & 0 & 1 & -y_1 \\
+% &  &  &  &  &  & \vdots &  &  &  &  &  \\
+%X_8 & Y_8 & Z_8 & 0 & 0 & 0 & -x_8 X_8 & -x_8 Y_8 & -x_8 Z_8 & 1 & 0 & -x_8 \\ 
+%0 & 0 & 0 & X_8 & Y_8 & Z_8 & -y_8 X_8 & -y_8 Y_8 & -y_8 Z_8 & 0 & 1 & -y_8 \\
+%\end{bsmallmatrix}
+%\end{equation}
+
 \begin{equation}
 \setcounter{MaxMatrixCols}{12}
 a = 
 \begin{bsmallmatrix}
 X_i & Y_i & Z_i & 0 & 0 & 0 & -x_i X_i & -x_i Y_i & -x_i Z_i & 1 & 0 & -x_i \\ 
-0 & 0 & 0 & X_i & Y_i & Z_i & -y_i X_i & -y_i Y_i & -y_i Z_i & 0 & 1 & -y_i \\
+0 & 0 & 0 & X_i & Y_ i& Z_i & -y_i X_i & -y_i Y_i & -y_i Z_i & 0 & 1 & -y_i \\
 \end{bsmallmatrix}
 \end{equation}
 
@@ -97,7 +109,7 @@ r_{11} & r_{12} & r_{13} & r_{21} & r_{22} & r_{23} & r_{31} & r_{23} & r_{33} &
 a\textbf{p}^T=0
 \end{equation}
 
-Rešitev sistema predstavlja 9 parametrov toge preslikave, ki predstavljajo rotacijo $r_{ij}$ ter translacijo $t_k$.
+Matrika $a$ ima dimenzije $16 \times 12$. Rešitev sistema predstavlja 12 parametrov toge preslikave, ki predstavljajo rotacijo $r_{ij}$ ter translacijo $t_k$.
 
 \subsection{Filtrirana povratna projekcija}
 
@@ -109,7 +121,7 @@ Jedro naloge predstavlja postopek FBP (angl. \textit{Filtered Backprojection}), 
 	\label{fig:fbp_deri}
 \end{figure}
 
-Zajete projekcije so nato pretvorjene v frekvenčno domeno s pomočjo Fourier-ove transformacije $P_{\theta}(\omega)$ za vsak kot. Tu nato sledi filtriranje projekcij z visoko-prepustnim filtrom s frekvenčnim odzivom $|\omega|$ tako, da dobimo $g_{\theta}(r) = \int  P_{\theta}(\omega)|\omega|e^{i 2\pi\omega r} d\omega$. S filtriranjem se želimo znebiti visokih frekvenc v projekcijah in posledično pridobiti kvalitetnejšo rekonstrukcijo. Po filtriranju nato sledi še rekonstrukcija v $f'(x,y)$ in sicer tako, da filtrirane inverze Fourier-ove transformacije seštejemo.
+Zajete projekcije so nato pretvorjene v frekvenčno domeno s pomočjo Fourier-ove transformacije $P_{\theta}(\omega)$ za vsak kot. Tu nato sledi filtriranje projekcij s frekvenčnim odzivom $|\omega|$ tako, da dobimo $g_{\theta}(r) = \int  P_{\theta}(\omega)|\omega|e^{i 2\pi\omega r} d\omega$. S filtriranjem se želimo znebiti visokih frekvenc v projekcijah in posledično pridobiti kvalitetnejšo rekonstrukcijo. Po filtriranju nato sledi še rekonstrukcija v $f'(x,y)$ in sicer tako, da filtrirane inverze Fourier-ove transformacije seštejemo.
 
 \begin{equation}
 f'(x,y) = \int g_{\theta}(r) (x \cos\theta + y \sin \theta)d\theta
