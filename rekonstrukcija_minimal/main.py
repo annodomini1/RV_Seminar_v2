@@ -1,3 +1,4 @@
+#%% 
 import os
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -110,7 +111,7 @@ rl.plot_point_cloud(pointCoorX, pointCoorY, pointCoorZ)
 plt.show()
 
 
-
+#%% 
 #------------- PORAVNAVA TEST------------------
 # modelCoor = [pointCoorX_ref,pointCoorY_ref,pointCoorZ_ref]
 # dataCoor = [pointCoorX,pointCoorY,pointCoorZ]
@@ -127,7 +128,7 @@ plt.show()
 # rl.visualize(register_points_icp_best, model_in)
 
 # print(angleZ_aprox)
-
+#%% 
 #----------------- IZRIS GRAF NAPAKE PORAVNAVE ---------------------------
 
 files_endings = ['45stopinj', '90stopinj', '135stopinj', '180stopinj', '225stopinj', '315stopinj']
