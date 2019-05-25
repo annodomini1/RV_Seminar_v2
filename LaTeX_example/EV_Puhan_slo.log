@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.30)  24 MAY 2019 19:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.30)  25 MAY 2019 17:13
 entering extended mode
 **./EV_Puhan_slo.tex
 (EV_Puhan_slo.tex
@@ -847,14 +847,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 60--60
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 69.
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 63.
 <fig/FBPderi.jpg, id=1, 661.72218pt x 639.13782pt>
 File: fig/FBPderi.jpg Graphic file (type jpg)
 <use fig/FBPderi.jpg>
-Package pdftex.def Info: fig/FBPderi.jpg  used on input line 119.
+Package pdftex.def Info: fig/FBPderi.jpg  used on input line 113.
 (pdftex.def)             Requested size: 128.0374pt x 123.661pt.
 
-Underfull \hbox (badness 1430) in paragraph at lines 124--125
+Underfull \hbox (badness 1430) in paragraph at lines 118--119
 \OT1/ptm/m/n/10 kven[]cnim od-zi-vom $\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 !\OMS/
 cmsy/m/n/10 j$ \OT1/ptm/m/n/10 tako, da do-bimo $\OML/cmm/m/it/10 g[]\OT1/cmr/m
 /n/10 (\OML/cmm/m/it/10 r\OT1/cmr/m/n/10 ) =
@@ -867,66 +867,76 @@ cmsy/m/n/10 j$ \OT1/ptm/m/n/10 tako, da do-bimo $\OML/cmm/m/it/10 g[]\OT1/cmr/m
 <fig/FBPflow.jpg, id=20, 582.67688pt x 794.2172pt>
 File: fig/FBPflow.jpg Graphic file (type jpg)
 <use fig/FBPflow.jpg>
-Package pdftex.def Info: fig/FBPflow.jpg  used on input line 142.
+Package pdftex.def Info: fig/FBPflow.jpg  used on input line 136.
 (pdftex.def)             Requested size: 170.71652pt x 232.69237pt.
 <fig/alg_poravnava.png, id=21, 336.50719pt x 508.14844pt>
 File: fig/alg_poravnava.png Graphic file (type png)
 <use fig/alg_poravnava.png>
-Package pdftex.def Info: fig/alg_poravnava.png  used on input line 152.
+Package pdftex.def Info: fig/alg_poravnava.png  used on input line 146.
 (pdftex.def)             Requested size: 128.0374pt x 193.34653pt.
 <fig/blokovna_sistem.png, id=23, 683.55376pt x 535.2497pt>
 File: fig/blokovna_sistem.png Graphic file (type png)
 <use fig/blokovna_sistem.png>
-Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 161.
+Package pdftex.def Info: fig/blokovna_sistem.png  used on input line 155.
 (pdftex.def)             Requested size: 233.3125pt x 182.69304pt.
  [2 <./fig/FBPflow.jpg> <./fig/alg_poravnava.png> <./fig/blokovna_sistem.png>]
 <fig/zajeta_slika.jpg, id=30, 903.375pt x 1003.75pt>
 File: fig/zajeta_slika.jpg Graphic file (type jpg)
 <use fig/zajeta_slika.jpg>
-Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 189.
+Package pdftex.def Info: fig/zajeta_slika.jpg  used on input line 183.
 (pdftex.def)             Requested size: 119.50148pt x 132.77415pt.
 <fig/slusalke_1.png, id=31, 665.48625pt x 338.01282pt>
 File: fig/slusalke_1.png Graphic file (type png)
 <use fig/slusalke_1.png>
-Package pdftex.def Info: fig/slusalke_1.png  used on input line 202.
+Package pdftex.def Info: fig/slusalke_1.png  used on input line 196.
 (pdftex.def)             Requested size: 176.407pt x 89.59875pt.
 <fig/slusalke.png, id=32, 524.71031pt x 240.9pt>
 File: fig/slusalke.png Graphic file (type png)
 <use fig/slusalke.png>
-Package pdftex.def Info: fig/slusalke.png  used on input line 212.
+Package pdftex.def Info: fig/slusalke.png  used on input line 206.
 (pdftex.def)             Requested size: 176.407pt x 80.98962pt.
 <fig/slika_90_30.png, id=33, 756.57657pt x 216.81pt>
 File: fig/slika_90_30.png Graphic file (type png)
 <use fig/slika_90_30.png>
-Package pdftex.def Info: fig/slika_90_30.png  used on input line 222.
+Package pdftex.def Info: fig/slika_90_30.png  used on input line 216.
 (pdftex.def)             Requested size: 227.62204pt x 65.22876pt.
 <fig/poravnava.png, id=34, 469.755pt x 201.00093pt>
 File: fig/poravnava.png Graphic file (type png)
 <use fig/poravnava.png>
-Package pdftex.def Info: fig/poravnava.png  used on input line 232.
+Package pdftex.def Info: fig/poravnava.png  used on input line 226.
 (pdftex.def)             Requested size: 227.62204pt x 97.39638pt.
  [3 <./fig/zajeta_slika.jpg> <./fig/slusalke_1.png> <./fig/slusalke.png> <./fig
 /slika_90_30.png>]
 <fig/graf_poravnave.png, id=42, 432.11438pt x 322.20375pt>
 File: fig/graf_poravnave.png Graphic file (type png)
 <use fig/graf_poravnave.png>
-Package pdftex.def Info: fig/graf_poravnave.png  used on input line 240.
+Package pdftex.def Info: fig/graf_poravnave.png  used on input line 234.
 (pdftex.def)             Requested size: 227.62204pt x 169.72488pt.
 
-Underfull \hbox (badness 1983) in paragraph at lines 246--248
+Underfull \hbox (badness 1983) in paragraph at lines 241--242
 []\OT1/ptm/m/n/10 Vzvratno in[]zenirstvo je pro-ces, kjer na pod-lagi
  []
 
-[4 <./fig/poravnava.png> <./fig/graf_poravnave.png>] (EV_Puhan_slo.aux)
+<fig/print_slusalke.jpg, id=43, 2535.4725pt x 1471.4975pt>
+File: fig/print_slusalke.jpg Graphic file (type jpg)
+<use fig/print_slusalke.jpg>
+Package pdftex.def Info: fig/print_slusalke.jpg  used on input line 244.
+(pdftex.def)             Requested size: 227.62204pt x 132.09225pt.
+[4 <./fig/poravnava.png> <./fig/graf_poravnave.png> <./fig/print_slusalke.jpg>]
+(EV_Puhan_slo.aux
+
+Package pdfbase Warning: Rerun to get internal references right!
+
+)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17283 strings out of 492970
- 318442 string characters out of 3135851
- 367696 words of memory out of 3000000
- 20966 multiletter control sequences out of 15000+200000
+ 17296 strings out of 492970
+ 318680 string characters out of 3135851
+ 367705 words of memory out of 3000000
+ 20978 multiletter control sequences out of 15000+200000
  585099 words of font info for 122 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,8n,77p,974b,320s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -942,9 +952,9 @@ les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on EV_Puhan_slo.pdf (4 pages, 1202188 bytes).
+Output written on EV_Puhan_slo.pdf (4 pages, 1889471 bytes).
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
+ 91 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

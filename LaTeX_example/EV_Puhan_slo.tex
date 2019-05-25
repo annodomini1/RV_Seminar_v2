@@ -46,10 +46,10 @@
 \address{Univerza v Ljubljani, Fakulteta za elektrotehniko, Tržaška 25, 1000 Ljubljana, Slovenija\\
 E-pošta: janez.lapajne@gmail.com, knap.martin@gmail.com}
 
-\abstract{V nalogi je obravnavan postopek 3D rekonstukcije objektov na podlagi večih zajetih slik. Za rekonstrukcijo je uporabljena FBP (angl. \textit{Filtered back projection }) metoda. Temelji na rekonstrukciji 3D oblika iz slik, ki so zajete pri znanih kotih zasuka objekta. Velik poudarek je namenjen izgradnji in zasnovi sistema, saj je od njegove postavitve odvisna kakovost zajetih slik.  Osredotočamo se predvsem na elemente, ki nam pomagajo pri čimboljši rekonstrukciji objekta v obliki oblaka točk. Prikazana je kalibracija sistema in preslikava slik v metrični koordinatni sistem. Predstavljena je uporabnost rekontrukcije objektov in izvedba vzvratnega inženirstva skeniranega objekta.
+\abstract{V nalogi je obravnavan postopek 3D rekonstukcije objektov na podlagi več zajetih slik. Za rekonstrukcijo je uporabljena FBP (angl. \textit{Filtered Backprojection }) metoda. Temelji na rekonstrukciji 3D oblike iz slik, ki so zajete pri znanih kotih zasuka objekta. Velik poudarek je namenjen izgradnji in zasnovi sistema, saj je od njegove postavitve odvisna kakovost zajetih slik.  Osredotočamo se predvsem na elemente, ki nam pomagajo pri čimboljši rekonstrukciji objekta v obliki oblaka točk. Prikazana je kalibracija sistema in preslikava slik v metrični koordinatni sistem. Predstavljena je uporabnost rekontrukcije objektov in izvedba vzvratnega inženirstva skeniranega objekta.
 }
 
-\keywords{rekonstrukcija 3d objekta, kalibracija kamere, poravnava oblakov točk, vzvratno inženirstvo}
+\keywords{rekonstrukcija 3D objekta, kalibracija kamere, poravnava oblakov točk, vzvratno inženirstvo}
 
 
 
@@ -60,14 +60,8 @@ E-pošta: janez.lapajne@gmail.com, knap.martin@gmail.com}
 \maketitle
 
 
-
-%TODO
-%DLT naštuderi
-%povečaj simbole na sliki1
-%slika2 -> normalizacija koordinat mreže
-%poprav vrsto filtra
 \section{Uvod}
-V robotskem vidu in računalniški grafiki je 3d rekonstrukcija proces zajemanja oblike in videza realnega objekta. Proces je lahko dosežen z aktivnimi ali pasivnimi metodami. V nalogi je uporabljena pasivna FBP metoda. Uporaba rekonstrukcije lahko določi profil 3d objekta oziroma koordinate katerikoli točke na tem profilu. Digitalna slika je v našem primeru vir informacij. Za dobro rekonstrukcijo je potrebno upoštevati vizualno dispariteto, osvetlitev, performance kamere in značilnosti scene. Uporabljeno kamero je potrebno ustrezno skalibrirati in merjene točke pretvoriti v metrični koordinatni sistem. Bolje kot je zastavljen zajem slik, ustreznejši so končni rezultati. Dobro zajete slike olajšajo obdelavo. Rekonstrukcija objektov je uporabljena v različnih področjih raziskovanja. Med drugim v medicini, robotiki, računalniških igrah in v vzvratnem inženirstvu. 
+V robotskem vidu in računalniški grafiki je 3D rekonstrukcija proces zajemanja oblike in videza realnega objekta. Proces je lahko dosežen z aktivnimi ali pasivnimi metodami. V nalogi je uporabljena pasivna FBP metoda. Uporaba rekonstrukcije lahko določi profil 3D objekta oziroma koordinate katerikoli točke na tem profilu. Digitalna slika je v našem primeru vir informacij. Za dobro rekonstrukcijo je potrebno upoštevati vizualno dispariteto, osvetlitev, performance kamere in značilnosti scene. Uporabljeno kamero je potrebno ustrezno skalibrirati in merjene točke pretvoriti v metrični koordinatni sistem. Bolje kot je zastavljen zajem slik, ustreznejši so končni rezultati. Dobro zajete slike olajšajo obdelavo. Rekonstrukcija objektov je uporabljena v različnih področjih raziskovanja. Med drugim v medicini, robotiki, računalniških igrah in v vzvratnem inženirstvu. 
 
 \section{Teoretično ozadje}
 
@@ -124,7 +118,7 @@ Jedro naloge predstavlja postopek FBP (angl. \textit{Filtered Backprojection}), 
 Zajete projekcije so nato pretvorjene v frekvenčno domeno s pomočjo Fourier-ove transformacije $P_{\theta}(\omega)$ za vsak kot. Tu nato sledi filtriranje projekcij s frekvenčnim odzivom $|\omega|$ tako, da dobimo $g_{\theta}(r) = \int  P_{\theta}(\omega)|\omega|e^{i 2\pi\omega r} d\omega$. S filtriranjem se želimo znebiti visokih frekvenc v projekcijah in posledično pridobiti kvalitetnejšo rekonstrukcijo. Po filtriranju nato sledi še rekonstrukcija v $f'(x,y)$ in sicer tako, da filtrirane inverze Fourier-ove transformacije seštejemo.
 
 \begin{equation}
-f'(x,y) = \int g_{\theta}(r) (x \cos\theta + y \sin \theta)d\theta
+f'(x,y) = \frac{1}{2\pi} \int_{0}^{\pi} g_{\theta}(r) (x \cos\theta + y \sin \theta)d\theta
 \end{equation}
 
 Ali v diskretni obliki, kjer je $\Delta\theta$ korak diskretizacije:
@@ -163,7 +157,7 @@ Sistem s katerim smo izvajali rekonstrukcijo je blokovno prikazan na sliki ~\ref
 	\label{fig:blokovna}
 \end{figure}
 %
- Celoten proces zajemanja krmilnimo z računalnikom. Ta je žično povezan na krmilnik s katerim upravljamo rotirajočo pozicionirno mizo. Prav tako je računalnik brezžično povezan na Raspberry Pi. Ta zajete slike pošilja na računalnik. Objekt rekonstruiramo tako, da ga postavimo na predvideno mesto. Nato lahko pričnemo z zajemom slik. Najprej inicializiramo kamero na začetne vrednosti. Nastavimo ISO na 200, svetlost na 45 in resolucijo na 900x1000.  Objekt obračamo po začrtanih zasukih. Po vsakem izvedenem zasuku posnamemo eno sliko, ki se nato brezžično prenese iz Raspberry Pi-ja na računalnik. Postopek ponavljamo dokler objekta ne poslikamo v rangu celotnega kroga. Zajete slike ob znanih kotih zasuka se kasneje uporabijo za 3d rekonstrukcijo. V tabeli ~\ref{tab:komponente} so zapisane vse glavne komponente, ki so zajete v postavljenem sistemu. Manjše komponente kot so vijaki in nosilci v tabeli niso zajeti.
+ Celoten proces zajemanja krmilnimo z računalnikom. Ta je žično povezan na krmilnik s katerim upravljamo rotirajočo pozicionirno mizo. Prav tako je računalnik brezžično povezan na Raspberry Pi. Ta zajete slike pošilja na računalnik. Objekt rekonstruiramo tako, da ga postavimo na predvideno mesto. Nato lahko pričnemo z zajemom slik. Najprej inicializiramo kamero na začetne vrednosti. Nastavimo ISO na 200, svetlost na 45 in resolucijo na 900x1000.  Objekt obračamo po začrtanih zasukih. Po vsakem izvedenem zasuku posnamemo eno sliko, ki se nato brezžično prenese iz Raspberry Pi-ja na računalnik. Postopek ponavljamo dokler objekta ne poslikamo v rangu celotnega kroga. Zajete slike ob znanih kotih zasuka se kasneje uporabijo za 3D rekonstrukcijo. V tabeli ~\ref{tab:komponente} so zapisane vse glavne komponente, ki so zajete v postavljenem sistemu. Manjše komponente kot so vijaki in nosilci v tabeli niso zajeti.
 
 \begin{center}
 	\centering
@@ -226,7 +220,7 @@ Dvakrat smo rekonstruirali isti predmet. Enkrat na podlagi 30 slik in drugič na
 %
 %
 \subsection{Poravnava oblakov točk}
-Za dodaten eksperiment smo izvedli medsebojno poravnavo oblakov točk. Referenčni oblak točk smo zajeli z 90 slikami in si zapolnili referenčno lego objekta na pozicionirni mizi. Nato smo izvedli še šest zajemov po 30 slik. Ob vsakem zajemu smo skeniran objekt zasukali za predpisan kot glede na referenčno lego okoli vertikalne osi. Tako smo zajeli oblake točk zasukane za 45, 90, 135, 18, 225 in 315 stopinj. Na sliki ~\ref{fig:poravnava} sta zaradi preglednosti prikazana le referenčni oblak in oblak zasukan za 90 stopinj. Na levi strani sta oblaka prikazana pred poravnavo in na desni po poravnavi. 
+Za dodaten eksperiment smo izvedli medsebojno poravnavo oblakov točk. Referenčni oblak točk smo zajeli z 90 slikami in si zapolnili referenčno lego objekta na pozicionirni mizi. Nato smo izvedli še šest zajemov po 30 slik. Ob vsakem zajemu smo skeniran objekt zasukali za predpisan kot glede na referenčno lego okoli vertikalne osi. Tako smo zajeli oblake točk zasukane za 45, 90, 135, 180, 225 in 315 stopinj. Na sliki ~\ref{fig:poravnava} sta zaradi preglednosti prikazana le referenčni oblak in oblak zasukan za 90 stopinj. Na levi strani sta oblaka prikazana pred poravnavo in na desni po poravnavi. 
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=8cm]{fig/poravnava}}
@@ -243,12 +237,22 @@ Za vse, pod različnimi koti zajete oblake točk, smo izvedli poravnavo. Nato sm
 \end{figure}
 
 \subsection{Vzvratno inženirstvo}
-Vzvratno inženirstvo je proces, kjer na podlagi fizičnega objekta rekontruriramo njegov model. Model dobimo tako, da oblak točk prilagodimo in pretvorimo v ustrezen format. S pomočjo programa Solidworks smo 
-tako oblak točk pretvorili v stl format. Kot takega ga lahko uvozimo v program za 3d tisk in  rekonstruiramo še v fizični obliki.
+
+Vzvratno inženirstvo je proces, kjer na podlagi fizičnega objekta rekonstruiramo njegov model. Model smo dobili tako, da smo z rekonstrukcijo dobljen oblak točk uvozili v 3D modelirnik Solidworks. Tam smo z uporabo posebnih orodij iz točk površine predmeta dobili površino sestavljeno iz trikotnikov in posledično zaprli vse odprtine tako, da smo dobili zaprto površino. Nato je sledila interpolacija z namenom pridobive gladkejše površine in transformacija v "trdnino". Po opravljenih korakih smo imeli model v primerni obliki za izvoz v formatu .stl. Omenjeni format se nato uvozi v razslojevalni (angl.: \textit{Slicer}), ki napravi G-kodo 3D tiskalnika za tvorbo fizičnega modela.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=8cm]{fig/print_slusalke}}
+	\caption{Model po tiskanju ter lupina modela v modelirniku.}
+	\label{fig:print_slusalke}
+\end{figure}
 
 
 \section{Zaključek}
-Z našo tehniko rekonstruiranja nismo popisali dovolj dobrih delailov, čas rekonstrukcije se povečjuje z velikostjo sempljanja, ugotovili smo, da je sistem zelo pomemben + osvetlitev. Pomembno tud število slik. Poravnava slik, nam je dobro uspela - lahko če ne bi poznali pod kakšnim kotom je poslikal in dobil koliko je zamaknjen glede na referenčno lego.
+Tekom izvajanja naloge smo ugotovili, da postopek 3D FBP rekonstrukcije dobro deluje pri popisu predmetov brez majhnih detajlov. Če pogledamo sliko \ref{fig:slika_90_30} vidimo, da rekonstruiran oblak točk modela ožilja ne vsebuje manjših žilic. Na kvaliteto rekonstrukcije močno vplivamo s številom zajetih slik ter z ustrezno osvetlitvijo, tako se znebimo črtastih arftefaktov, ki nastanejo s postopkom FBP. Pri tem pa je potrebno omeniti, da se čas rekonstrukcije močno poveča z večjim številom slik. Z pojmom dobra osvetlitev pa mislimo velik kontrast med ozadejm ter slikanim predemtom. Uporabljen algoritem rekonstrukcije omogoča tudi dimenzijsko analizo.
+
+Poravnava oblakov se je izkazala za izredno uspešno kot to prikazuje tudi graf na sliki \ref{fig:poravnava_graf}. Pri pretvorbi digitalnega modela v fizičnega pa smo ugotovili, da na kvaliteto rezultirajočega modela močno vpliva vrsta algortima za izluščevanje točk površine, transformacija oblaka točk v 3D model ter sam postopek 3D tiskanja.
+
+%Z našo tehniko rekonstruiranja nismo popisali dovolj dobrih delailov, čas rekonstrukcije se povečjuje z velikostjo sempljanja, ugotovili smo, da je sistem zelo pomemben + osvetlitev. Pomembno tud število slik. Poravnava slik, nam je dobro uspela - lahko če ne bi poznali pod kakšnim kotom je poslikal in dobil koliko je zamaknjen glede na referenčno lego.
 
 
 \begin{thebibliography}{10}
