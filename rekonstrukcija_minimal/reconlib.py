@@ -486,50 +486,56 @@ def get_point_cloud(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, e
 
     return pointCoorX, pointCoorY, pointCoorZ
 
-# def get_point_cloud(vol, weight=7, Deci=5, startHeightShare=0.1, endHeightShare=0.9, circleRadiusLimit=20):
+def sharpenImage(iImage, c):
+    laplace_kernel = np.array([[0,1,0],[1,-4,1],[0,1,0]])
+    oImage = np.zeros_like(iImage)
+    copy_iImage = np.copy(iImage)
+    delta = ni.convolve(iImage, laplace_kernel, mode='nearest')
+    oImage = copy_iImage - c*delta
+    oImage = limitRange(oImage, iImage.dtype)
+    
+    return oImage
 
-#     def distanceFromCenter(centerX, centerY, pointX, pointY):
-#         distance = np.sqrt((centerX - pointX)**2 + (centerY - pointY)**2)
-#         return distance
+def get_point_cloud_surface(vol, ThresImageMaxShare=0.3, Deci=5, startHeightShare=0.1, endHeightShare=0.9, circleRadiusLimit=20):
 
-#     def scaleImage(iImage):
-#         oImage = (255/np.max(iImage))*iImage
-#         return oImage
+    def distanceFromCenter(centerX, centerY, pointX, pointY):
+        distance = np.sqrt((centerX - pointX)**2 + (centerY - pointY)**2)
+        return distance
 
-#     pointCoorX = []
-#     pointCoorY = []
-#     pointCoorZ = []
+    pointCoorX = []
+    pointCoorY = []
+    pointCoorZ = []
 
-#     initZ = len(vol[0,0,:])
+    initZ = len(vol[0,0,:])
 
-#     startZ = int(np.round(startHeightShare*initZ))
-#     endZ = int(np.round(endHeightShare*initZ))
-#     vol = vol[:,:,startZ:endZ]
+    startZ = int(np.round(startHeightShare*initZ))
+    endZ = int(np.round(endHeightShare*initZ))
+    vol = vol[:,:,startZ:endZ]
 
-#     [dx, dy, dz] = vol.shape
-#     centerX = dx/2
-#     centerY = dy/2
-#     for dZ in range(dz):
-#         dImage = vol[:,:,dZ]
-#         dImage = dImage + abs(np.min(dImage))
-#         dImage = scaleImage(dImage)
-#         dImage = cv.medianBlur(dImage.astype(np.float32), 7)
-#         dImage = dImage.astype('uint8')
-#         dImage = cv.adaptiveThreshold(dImage,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,9, weight)
+    [dx, dy, dz] = vol.shape
+    centerX = dx/2
+    centerY = dy/2
+    for dZ in range(dz):
+        dImage = vol[:,:,dZ]
+        dImage = dImage + abs(np.min(dImage))
 
-#         for dX in range(dx):
-#             for dY in range(dy):
-#                 if (distanceFromCenter(centerX, centerY, dX, dY) < circleRadiusLimit):
-#                     if (dImage[dX, dY] == 0):
-#                         pointCoorX.append(dX)
-#                         pointCoorY.append(dY)
-#                         pointCoorZ.append(dZ)
+        dImage = thresholdImage(dImage, np.median(dImage)*ThresImageMaxShare)
+        shrpImage = sharpenImage(dImage, 0.3)
+        diffImage = dImage - shrpImage
 
-#     pointCoorX = pointCoorX[::Deci]
-#     pointCoorY = pointCoorY[::Deci]
-#     pointCoorZ = pointCoorZ[::Deci]
+        for dX in range(dx):
+            for dY in range(dy):
+                if (distanceFromCenter(centerX, centerY, dX, dY) < circleRadiusLimit):
+                    if (diffImage[dX, dY] >= 1):
+                        pointCoorX.append(dX)
+                        pointCoorY.append(dY)
+                        pointCoorZ.append(dZ)
 
-#     return pointCoorX, pointCoorY, pointCoorZ
+    pointCoorX = pointCoorX[::Deci]
+    pointCoorY = pointCoorY[::Deci]
+    pointCoorZ = pointCoorZ[::Deci]
+
+    return pointCoorX, pointCoorY, pointCoorZ
 
 def plot_point_cloud(X, Y, Z):
     fig = plt.figure()

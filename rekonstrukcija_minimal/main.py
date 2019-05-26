@@ -11,8 +11,8 @@ import reconlib as rl
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
-pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
-# pth = 'C:/Users/Martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
+# pth = 'C://Users//lapaj//oneDrive//RV_Seminar_v2//rekonstrukcija_minimal'
+pth = 'C:/Users/Martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
 
 calibration_image_fname = join(pth, 'calibration', 'kalibr.jpg')
 calibration_data_fname = join(pth, 'calibration', 'tocke_kalibra.npy')
@@ -164,3 +164,15 @@ plt.xlabel('Številka oblaka točk')
 plt.ylabel('kot [°]')
 plt.show()
 
+#%% 
+#--------------------IZLOČITEV PORŠINSKIH TOČK MERJENCA TER CSV IZVOZ-----------------
+surfPointCoorX, surfPointCoorY, surfPointCoorZ = rl.get_point_cloud_surface(vol_ref, 0.5, 1, 0.25, 0.9, 45)
+
+rl.plot_point_cloud(surfPointCoorX, surfPointCoorY, surfPointCoorZ)
+
+import csv
+surfPoints = [surfPointCoorX, surfPointCoorY, surfPointCoorZ]
+
+with open('ptCloud.csv','wb') as f:
+    out = csv.writer(f, delimiter=',')
+    out.writerows(zip(*surfPoints))
