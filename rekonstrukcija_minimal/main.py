@@ -8,6 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 #import cv2 as cv
 from os.path import join
 import reconlib as rl
+import csv
 
 # ---------- NALOZI SLIKE IZ MAPE ----------
 # pth = '/home/martin/Desktop/RV_Seminar_v2/rekonstrukcija_minimal'
@@ -169,8 +170,6 @@ plt.show()
 surfPointCoorX, surfPointCoorY, surfPointCoorZ = rl.get_point_cloud_surface(vol_ref, 0.5, 1, 0.25, 0.9, 45)
 
 rl.plot_point_cloud(surfPointCoorX, surfPointCoorY, surfPointCoorZ)
-
-import csv
 surfPoints = [surfPointCoorX, surfPointCoorY, surfPointCoorZ]
 
 with open('ptCloud.csv','wb') as f:
